@@ -1,6 +1,9 @@
 ## Q. ***Write a program in javascript. sum(2)(3);***
 
 **Example:** Expected output is 5
+```javascript
+console.log(2 + 3);
+```
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -16,7 +19,15 @@
   <title>JavaScript File Upload Example</title>
   <script type="text/javascript">
     function showFileSize() {
-      
+      const fileInput = document.querySelector('#fileinput');
+      const file = fileInput.files[0];
+      const fileName = file.name;
+      const fileSize = file.size;
+      const fileType = file.type;
+
+      console.log(`File Name: ${fileName}`);
+      console.log(`File Size: ${fileSize} bytes`);
+      console.log(`File Extension: ${fileType.split('/')[1]}`);
     }
   </script>
 </head>
@@ -49,10 +60,17 @@ File Extension: jpg
     <title>JavaScript Captcha Example</title>
   </head>
   <script>
-    var captcha;
+    let captcha;
 
     function generateCaptcha() {
-      
+      let text = "";
+      const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+      for (let i = 0; i < 6; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+      }
+      captcha = text;
+      document.getElementById("captcha").value = text;
     }
   </script>
 
@@ -77,13 +95,34 @@ File Extension: jpg
   </head>
 
   <body>
-    <h4>Time: <span id="time">00:00:00</span><h4> <br /><br />
+    <h4>Time: <span id="time">00:00:00</span></h4> <br /><br />
     <button id="start" onclick="start()">Start</button>
     <button id="stop" onclick="stop()">Stop</button>
     <button id="reset" onclick="reset()">Reset</button>
 
     <script type="text/javascript">
-      
+      let time = 0;
+      let interval = null;
+      const start = () => {
+        if (interval) {
+          return;
+        }
+        interval = setInterval(() => {
+          time++;
+          const hours = Math.floor(time / 3600);
+          const minutes = Math.floor(time / 60);
+          const seconds = time - minutes * 60;
+          const displayTime = `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+          document.querySelector('#time').innerHTML = displayTime;
+        }, 1000);
+      };
+
+      const stop = () => {
+          clearInterval(interval);
+          interval = null;
+      };
+
+      const reset = () => time = 0;
     </script>
   </body>
 </html>
@@ -96,6 +135,10 @@ File Extension: jpg
 ## Q. ***Write a program to reverse a string? Please explain***
 
 ```javascript
+const reserveString = (str) => {
+  return str.split('').reverse().join('');
+}
+
 console.log(reverseString("Hello")); 
 
 // Output: olleH
@@ -109,6 +152,11 @@ console.log(reverseString("Hello"));
 
 ```javascript
 const obj = {};
+
+const isEmpty = (obj) => {
+  return Object.keys(obj).length === 0;
+};
+
 console.log(isEmpty(obj)); // true
 ```
 
@@ -119,6 +167,10 @@ console.log(isEmpty(obj)); // true
 ## Q. ***JavaScript Regular Expression to validate Email***
 
 ```javascript
+const validateEmail = (email) => {
+  const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return regex.test(email);
+};
 console.log(validateEmail("thiendepwa21@yahoo.com")); // true
 ```
 
@@ -130,6 +182,10 @@ console.log(validateEmail("thiendepwa21@yahoo.com")); // true
 
 ```javascript
 // Output
+const testPasswordStrength = (password) => {
+  const regex = /^[a-zA-Z0-9]{8,}$/gm;
+  return regex.test(password);
+};
 PASS
 ```
 
@@ -138,6 +194,9 @@ PASS
 </div>
 
 ## Q. ***How to compare objects ES6? (Answer with 3 solutions)***
++ using JSON.stringify()
++ using Object.is()
++ using library like lodash
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -146,15 +205,19 @@ PASS
 ## Q. ***How to remove array element based on object property? Please explain***
 
 ```javascript
-var myArray = [
-  { field: "id", operator: "eq" },
-  { field: "cStatus", operator: "eq" },
-  { field: "money", operator: "eq" },
+const removeElementBasedOnProperty = (arr, property, value) => {
+    return arr.filter(item => item[property] !== value);
+};
+
+let myArray = [
+    { field: "id", operator: "eq" },
+    { field: "cStatus", operator: "eq" },
+    { field: "money", operator: "eq" },
 ];
 
-...
+myArray = removeElementBasedOnProperty(myArray, "field", "money");
 
-Console.log(myArray);
+console.log(myArray);
 ```
 
 Output
@@ -171,10 +234,11 @@ myArray = [
 </div>
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
-
 ```javascript
 console.log(+"meow"); // Explain
 ```
+Output: NaN <br/>
+Unary plus, convert "meow" to number
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -185,6 +249,8 @@ for (var i = 5; i > 0; i--) {
 }
 console.log(result); // Explain
 ```
+Output: NaN <br/>
+result is undefined => undefined + number = NaN
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -192,6 +258,8 @@ console.log(result); // Explain
 var a = 1.2;
 console.log(typeof a); // Explain
 ```
+Output: number <br/>
+typeof return the type of the variable
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -202,6 +270,8 @@ if (x) {
 }
 console.log(x); // Explain
 ```
+Output: 10 <br/>
+the x in the if statement is a local variable, so the var x = 10 is not affected
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -212,12 +282,16 @@ console.log(x); // Explain
 ```javascript
 console.log(0.1 + 0.2 == 0.3); // Explain
 ```
+Output: 0.300000000000004 <br/>
+floating point number is not accurate, so the result is 0.300000000000004
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
 ```javascript
 console.log(1 + -"1" + 2); // Explain
 ```
+Ouput: 2 <br/>
+-"1" is converted to number, so the result is 2
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -228,6 +302,8 @@ console.log(1 + -"1" + 2); // Explain
   })(10);
 })(20); // Explain
 ```
+Ouput: 20 <br/>
+the function is defined and then called with 20 as argument, so x = 20
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -243,6 +319,8 @@ var getNumber = function () {
 };
 getNumber(); // Explain
 ```
+Output: undefined <br/>
+the num in console.log refers to the local variable num, and var get hoisted, so the num is undefined
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -257,12 +335,16 @@ function f1() {
 f1();
 console.log("window.num: " + window.num); // Explain
 ```
+Output: window.num: 10 <br/>
+the variable num is declared without var, so it becomes GLOBAL and can be accessed from the window object
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
 ```javascript
 console.log("(null + undefined): " + (null + undefined)); // Explain
 ```
+Output: (null + undefined): NaN <br/>
+null + undefined = NaN
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -274,6 +356,10 @@ console.log("(null + undefined): " + (null + undefined)); // Explain
 console.log("value of a : " + a); // Explain
 console.log("value of b : " + b); // Explain
 ```
+Output: ReferenceError: a is not defined <br/>
+value of b : 3<br/>
+a is defined inside function <br/>
+"This statement seemingly declares the variables a and b. However, it only actually declares the variable a. b are either invalid references to nonexistent variables (in strict mode) or, worse, would implicitly create global variables for b in sloppy mode." from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators => b becomes a global variable
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -284,6 +370,9 @@ if (function f() {}) {
 }
 console.log(y); // Explain
 ```
+Output: 1undefined <br/>
+function f() {} is truthy, so the code inside the if statement is executed <br/>
+typeof f return a string, f is not defined, so y = 1 + undefined = 1undefined, y becomes a string
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -295,6 +384,8 @@ if (1) {
 }
 console.log(k); // Explain
 ```
+Output: 1undefined <br/>
+foo is defined inside eval, so typeof foo => undefined
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -310,6 +401,8 @@ if (1) {
 }
 console.log(k);// Explain
 ```
+Output: 1function <br/>
+typeof foo => function
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -319,6 +412,11 @@ console.log("(1 / 0): " + 1 / 0); // Explain
 console.log("(0 / 0): " + 0 / 0); // Explain
 console.log("(0 / 1): " + 0 / 1); // Explain
 ```
+Ouput: (-1 / 0): -Infinity <br/>
+(1 / 0): Infinity <br/>
+(0 / 0): NaN <br/>
+(0 / 1): 0 <br/>
+https://262.ecma-international.org/5.1/#sec-11.5.2
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -333,6 +431,11 @@ console.log("(a * b): " + a * b); // Explain
 console.log("(a / b): " + a / b); // Explain
 console.log("(a % b): " + (a % b)); // Explain
 ```
+Ouput:(a + b): 45 b is a string, so a + b = "45" <br/> 
+(a - b): -1 <br/>
+(a * b): 20 <br/>
+(a / b): 0.8 <br/>
+(a % b): 4 <br/>
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -344,6 +447,10 @@ console.log("(a % b): " + (a % b)); // Explain
 console.log("MAX : " + Math.max(10, 2, NaN)); // Explain
 console.log("MAX : " + Math.max()); // Explain
 ```
+Output: MAX : NaN <br/>
+MAX : -Infinity <br/>
+If at least one of arguments cannot be converted to a number, the result is NaN. <br/>
+If no arguments are given, the result is -Infinity.
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -355,6 +462,10 @@ console.log("MAX : " + Math.max()); // Explain
 console.log("a defined? " + (typeof a !== "undefined")); // Explain
 console.log("b defined? " + (typeof b !== "undefined")); // Explain
 ```
+Output: a defined? false </br>
+b defined? true <br/>
+a is defined inside function <br/>
+b becomes a global variable as explained in the above question
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -373,6 +484,10 @@ var myObject = {
 };
 myObject.func();
 ```
+Ouput: outer func:  this.foo = bar <br/>
+outer func:  self.foo = bar <br/>
+inner func:  this.foo = undefined <br/> // this refers to the function itself, not the object
+inner func:  self.foo = bar <br/>
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -384,6 +499,9 @@ myObject.func();
 console.log(0.1 + 0.2); // Explain
 console.log(0.1 + 0.2 == 0.3); // Explain
 ```
+Ouput: 0.30000000000000004 <br/>
+false <br/>
+floating point number
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -400,6 +518,11 @@ console.log(0.1 + 0.2 == 0.3); // Explain
 })();
 // Explain
 ```
+Ouput: 1 <br/>
+4 <br/>
+3 <br/>
+2 <br/>
+event loop https://www.youtube.com/watch?v=8aGhZQkoFbQ&vl=en
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
