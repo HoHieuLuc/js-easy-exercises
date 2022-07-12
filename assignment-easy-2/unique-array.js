@@ -7,9 +7,11 @@ const uniqueArray = (array = []) => {
         return indexOfValueInOriginalArray === -1;
     });
 
-    console.log(newArray);
+    return newArray;
 };
 
-uniqueArray([33]);
-uniqueArray([33, 33, 1, 4]);
-uniqueArray([33, 33, 1, 4, 1]);
+console.log(
+    uniqueArray([33]),
+    uniqueArray([33, 33, 1, 4]),
+    uniqueArray([33, 33, 1, 4, 1])
+);

@@ -10,13 +10,15 @@ const failPassAverages = (array = []) => {
         (sum, curr) => sum + curr, 0
     ) / passingMarks.length;
 
-    console.log([
+    return [
         isNaN(averageFailMark) ? -1 : Math.round(averageFailMark),
         isNaN(averagePassMark) ? -1 : Math.round(averagePassMark)
-    ]);
+    ];
 
 };
 
-failPassAverages([63, 65, 33]);
-failPassAverages([63, 62, 100, 100]);
-failPassAverages([33, 42, 20, 10]);
+console.log(
+    failPassAverages([63, 65, 33]),
+    failPassAverages([63, 62, 100, 100]),
+    failPassAverages([33, 42, 20, 10])
+);
