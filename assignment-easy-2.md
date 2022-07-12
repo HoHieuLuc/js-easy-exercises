@@ -37,14 +37,14 @@ Create a JavaScript function that meets the following requirements:
 * The function should return an array consisting of all the averages less than 50, followed by the average of all the mark more than 50.
   - both averages should be rounded to the nearest whole number.
   - If there are no failing marks (< 50), then the average fail mark should be set to -1
-  - If there are no passing marks (< 50), then the average pass mark should be set to -1
+  - If there are no passing marks (> 50), then the average pass mark should be set to -1
 * Displays the calculated information as illustrated below:
 
-```Calling failPassAvg(([63, 65, 33]) ➔ [33, 64]```
+```Calling failPassAvg([63, 65, 33]) ➔ [33, 64]```
 
-```Calling failPassAvg(([[63, 62, 100, 100]]) ➔ [-1, 81]```
+```Calling failPassAvg([63, 62, 100, 100]) ➔ [-1, 81]```
 
-```Calling failPassAvg(([33, 42, 20, 10]) ➔ [26, -1]```
+```Calling failPassAvg([33, 42, 20, 10]) ➔ [26, -1]```
 
 ## Check Date
 `function checkDate(string)`
