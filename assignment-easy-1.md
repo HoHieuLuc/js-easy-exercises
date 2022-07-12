@@ -45,7 +45,7 @@ Create a JavaScript function that meets the following requirements:
 
 ```Calling _four([-8,-1,-87,-14,-81,-74,-20,-86,-61,-10]);```
 
-```The minimum valu in the array is: -87, the maximum value is -1```
+```The minimum value in the array is: -87, the maximum value is -1```
 
 ## Count Occurrences
 `function _five(string, char)`
