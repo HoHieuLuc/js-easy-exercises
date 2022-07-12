@@ -53,7 +53,7 @@ Create a JavaScript function that meets the following requirements:
 * Please give your function a descriptive name
 * Receives a string as a parameter.
 * The function returns a Boolean indicating if the parameter string passed, is a valid date
-  - True indicates a valid date was provideD
+  - True indicates a valid date was provided.
   - False indicates that a valid date was not provided.
 * A valid date string, will have only the full month name (ex “January” not “Jan”) and a day number
   - A year will not be provided and thus your logic need not be concerned in that regard.
