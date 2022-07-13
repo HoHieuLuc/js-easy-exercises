@@ -16,7 +16,7 @@
 //     [10,  9,  8, 7]]
 
 function matrix(n) {
-    const array = Array(n).fill(0).map(
+    const array = new Array(n).fill(0).map(
         () => Array(n).fill(0)
     );
 
