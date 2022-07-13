@@ -21,8 +21,8 @@
 
 function pyramid(n, row = 0, level = '') {
     for (let i = 1; i <= n; i++) {
-        const spaces = new Array(n - i).fill(' ').join('');
-        const sharps = new Array(i * 2 - 1).fill('#').join('');
+        const spaces = ' '.repeat(n - i);
+        const sharps = '#'.repeat(i * 2 - 1);
 
         console.log(`${spaces}${sharps}${spaces}`);
     }
