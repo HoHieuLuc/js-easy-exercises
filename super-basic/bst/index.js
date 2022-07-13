@@ -13,17 +13,42 @@
 // If the value isn't in the tree return null.
 
 class Node {
-  constructor(data) {
-    
-  }
+    constructor(data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
 
-  insert(data) {
-    
-  }
+    insert(data) {
+        const newNode = new Node(data);
+        if (data < this.data) {
+            if (!this.left) {
+                this.left = newNode;
+            } else {
+                this.left.insert(data);
+            }
+        } else {
+            if (!this.right) {
+                this.right = newNode;
+            } else {
+                this.right.insert(data);
+            }
+        }
+    }
 
-  contains(data) {
-    
-  }
+    contains(data) {
+        if (this.data === data) {
+            return this;
+        } else {
+            if (this.data < data && this.right) {
+                return this.right.contains(data);
+            }
+            if (this.data >= data && this.left) {
+                return this.left.contains(data);
+            }
+            return null;
+        }
+    }
 }
 
 module.exports = Node;
