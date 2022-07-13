@@ -18,7 +18,11 @@
 //       '####'
 
 function steps(n, row = 0, stair = '') {
-  
+    for (let i = 1; i <= n; i++) { 
+        const spaces = ' '.repeat(n - i);
+        const sharps = '#'.repeat(i);
+        console.log(`${sharps}${spaces}`);
+    }
 }
 
 module.exports = steps;
