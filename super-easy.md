@@ -534,6 +534,12 @@ arr2.push(arr3);
 console.log("array 1: length=" + arr1.length + " last=" + arr1.slice(-1)); // Explain
 console.log("array 2: length=" + arr2.length + " last=" + arr2.slice(-1)); // Explain
 ```
+Output: array 1: length=5 last=j,o,n,e,s <br/>
+array 2: length=5 last=j,o,n,e,s <br/>
+```javascript
+var arr2 = arr1.reverse(); // reverse() mutates the original array, and returns the reference to it
+arr2.push(arr3); // push arr3 (an array) to arr2 (arr1) => ['n', 'h', 'o', 'j', ['j', 'o', 'n', 'e', 's']]
+```
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -545,6 +551,12 @@ console.log(+"1" + "1" + "2"); // Explain
 console.log("A" - "B" + "2"); // Explain
 console.log("A" - "B" + 2); // Explain
 ```
+Output: 122 => as expected <br/>
+32 => +"2" is converted to number 2 <br/>
+02 => -"1" is converted to number -1 <br/>
+122 => as expected <br/>
+NaN2 => string - string returns NaN <br/>
+NaN => NaN + number returns NaN
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -560,6 +572,22 @@ for (var i = 0; i < 5; i++) {
 }
 // Explain
 ```
+Output: 5 <br/>
+5 <br/>
+5 <br/>
+5 <br/>
+5 <br/>
+Variables declared with var are not local to the loop, i.e. they are in the same scope the for loop is in. <br/>
+var i is in the same scope as the for loop => global scope <br/>
+```javascript
+for (var i = 0; i < 5; i++) {
+  setTimeout(function () {
+    console.log(i);
+  }, i * 1000); // setTimeout receive a timeout corresponding to the current value of i
+  // after that timeout, the callback function is called
+  // i is in global scope => i = 5 when the callback function is called
+}
+```
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -569,19 +597,30 @@ for (var i = 0; i < 5; i++) {
     setTimeout(function () {
       console.log(x);
     }, x * 1000);
-  })(i);
+  })(i); // defined a function then run immediately with the value of the current i
+  // the setTimeout function works as expected
 }
-// Explain
 ```
+Output: 0 <br/>
+1 <br/>
+2 <br/>
+3 <br/>
+4 <br/>
+
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
 ```javascript
-console.log("0 || 1 = " + (0 || 1)); // Explain
-console.log("1 || 2 = " + (1 || 2)); // Explain
-console.log("0 && 1 = " + (0 && 1)); // Explain
-console.log("1 && 2 = " + (1 && 2)); // Explain
+console.log("0 || 1 = " + (0 || 1)); // 0 is falsy, so 1 is returned
+console.log("1 || 2 = " + (1 || 2)); // 1 is truthy, so 1 is returned (short-circuit evaluation, 2 is not evaluated)
+console.log("0 && 1 = " + (0 && 1)); // 0 is falsy, so 0 is returned (short-circuit evaluation, 1 is not evaluated)
+console.log("1 && 2 = " + (1 && 2)); // 1 is truthy, so 2 is returned
+// && operator returns the value of the first falsy operand encountered when evaluating from left to right, or the value of the last operand if they are all truthy.
 ```
+Output: 0 || 1 = 1 <br/>
+1 || 2 = 1 <br/>
+0 && 1 = 0 <br/>
+1 && 2 = 2
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -590,9 +629,11 @@ console.log("1 && 2 = " + (1 && 2)); // Explain
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
 ```javascript
-console.log(false == "0"); // Explain
-console.log(false === "0"); // Explain
+console.log(false == "0"); // the string "0" is falsy, so false == "0" returns true
+console.log(false === "0"); // the string "0" is not strictly equal to false, so false === "0" is false (typeof false is "boolean", typeof "0" is "string")
 ```
+Output: true <br/>
+false <br/>
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -601,10 +642,11 @@ var a = {},
   b = { key: "b" },
   c = { key: "c" };
 
-a[b] = 123;
-a[c] = 456;
-console.log(a[b]); // Explain
+a[b] = 123; // b is converted to string "[object Object]" => a["[object Object]"] = 123
+a[c] = 456; // => a["[object Object]"] = 456
+console.log(a[b]); // => 456
 ```
+Ouput: 456
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -613,18 +655,20 @@ console.log(
   (function f(n) {
     return n > 1 ? n * f(n - 1) : n;
   })(10)
-); // Explain
+); // recursive function, works as expected
 ```
+Output: 3628800 (10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1)
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
 ```javascript
 (function (x) {
   return (function (y) {
-    console.log(x); // Explain
+    console.log(x); // x is 1
   })(2);
-})(1);
+})(1); // the function is called with 1 as argument => x = 1
 ```
+Output: 1
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -641,9 +685,11 @@ var hero = {
 };
 var stoleSecretIdentity = hero.getSecretIdentity;
 
-console.log(stoleSecretIdentity()); // Explain
-console.log(hero.getSecretIdentity()); // Explain
+console.log(stoleSecretIdentity()); // this refers to the global object, so the _name is undefined
+console.log(hero.getSecretIdentity()); // this refers to the hero object
 ```
+Output: undefined <br/>
+John Doe
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -662,8 +708,14 @@ var obj = {
 };
 
 obj.method(fn, 1);
-// Explain
 ```
+Ouput: 10 <br/>
+2 <br/>
+The difference is because of the this context of each method call.
+
+In the first instance, because the call is merely fn();, the this context is Window. The var length = 10; variable declaration at the top happens in the root/Window context, so window.length should be 10, hence the 10 in the console from the first function call.
+
+Because arguments is not an array but is actually an Object of type Arguments, calling arguments[0]() means that the this context of the function call will be of the parent Object, so this.length is equivalent to arguments.length, hence the 2 (since there are 2 arguments, fn and 1). https://stackoverflow.com/questions/48832822/why-this-behavior-for-javascript-code
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -673,42 +725,50 @@ obj.method(fn, 1);
 
 ```javascript
 (function () {
+  // var x, y are hoisted to the top of the function
+  // var x, y;
   try {
     throw new Error();
   } catch (x) {
-    var x = 1,
-      y = 2;
+    var x = 1, // refers to the inner x
+      y = 2; // refers to the outer y
     console.log(x);
   }
   console.log(x);
   console.log(y);
 })();
-// Explain
 ```
+Ouput: 1 <br/>
+undefined <br/>
+2
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
 ```javascript
 var x = 21;
 var girl = function () {
-  console.log(x); // Explain
-  var x = 20;
+  console.log(x); // refers to the inner x => x = undefined
+  var x = 20; // var x is hoisted
 };
 girl();
 ```
+Output: undefined
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
 ```javascript
-console.log(1 < 2 < 3); // Explain
-console.log(3 > 2 > 1); // Explain
+console.log(1 < 2 < 3); // 1 < 2 returns true, true (true has value 1) < 3 return true
+console.log(3 > 2 > 1); // 3 > 2 returns true, true > 1 returns false
 ```
+Ouput: true <br/>
+false
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
 ```javascript
-console.log(typeof typeof 1); // Explain
+console.log(typeof typeof 1); // typeof 1 returns the string "number", typeof "number" is string
 ```
+Output: string
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
@@ -719,12 +779,13 @@ function outer() {
   function inner() {
     b++;
     var b = 3;
-    console.log(b); // Explain
+    console.log(b); // b refers to the inner b
   }
   inner();
 }
 outer();
 ```
+Output: 3
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -734,15 +795,15 @@ outer();
 
 ```javascript
 x = 10;
-console.log(x);
-var x; // Explain
+console.log(x); // x = 10
+var x; // var x is hoisted to the top of the scope (global in this context)
 ```
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
 ```javascript
 const arr = [1, 2];
-arr.push(3); // Explain
+arr.push(3); // [1, 2, 3], works as expected
 ```
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
@@ -751,6 +812,7 @@ arr.push(3); // Explain
 var o = new F();
 o.constructor === F;
 ```
+Ouput: F is not defined
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -762,20 +824,22 @@ o.constructor === F;
 let sum = (a, b) => {
   a + b;
 };
-console.log(sum(10, 20)); // Explain
+console.log(sum(10, 20)); // the function sum returns nothing (void)
 ```
+Ouput: undefined
 
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
 ```javascript
 var arr = ["javascript", "typescript", "es6"];
 var searchValue = (value) => {
-  return arr.filter((item) => {
-    return item.indexOf(value) > -1;
+  return arr.filter((item) => { // item is a string
+    return item.indexOf(value) > -1; // means that the item contains the value
   });
 };
 console.log(searchValue("script"));
 ```
+Ouput: ['javascript', 'typescript']
 
 ## Q. ***Write the program using fatarrow function? Please explain***
 
@@ -784,11 +848,24 @@ var a = [1, 2, 3, 4];
 function sumUsingFunction(acc, value) {
   return acc + value;
 }
-var sumOfArrayUsingFunc = a.reduce(sumUsingFunc);
+var sumOfArrayUsingFunc = a.reduce(sumUsingFunction);
 ```
+Output: 10, works as expected
 
 ## Q. ***Write a program that prints the numbers from 1 to 15. But for multiples of three print “Fizz” instead of the number and for the multiples of five print “Buzz”. For numbers which are multiples of both three and five print “FizzBuzz”? Please explain***
 
+```javascript
+for (let i = 1; i <= 15; i++) {
+  let output = '';
+  if (i % 3 === 0) {
+    output += 'Fizz';
+  }
+  if (i % 5 === 0) {
+    output += 'Buzz';
+  }
+  console.log(output || i);
+}
+```
 Output:
 
 ```
@@ -817,24 +894,26 @@ FizzBuzz
 
 ```javascript
 var output = (function (x) {
-  delete x;
+  delete x; // delete operator removes a property from an object, x is a local variable, so delete does nothing
   return x;
 })(0);
 
-console.log(output); // Explain
+console.log(output);
 ```
+Output: 0
 
 ## Q. ***What will be the output of the following code? Please explain***
 
 ```javascript
 var x = 1;
 var output = (function () {
-  delete x;
+  delete x; // Any property declared with var cannot be deleted from the global scope or from a function's scope.
   return x;
 })();
 
-console.log(output); // Explain
+console.log(output);
 ```
+Ouput: 1
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -845,12 +924,13 @@ console.log(output); // Explain
 ```javascript
 var x = { foo: 1 };
 var output = (function () {
-  delete x.foo;
+  delete x.foo; // delete the property foo from the object x
   return x.foo;
 })();
 
-console.log(output); // Explain
+console.log(output); // works as expected
 ```
+Output: undefined
 
 ## Q. ***What will be the output of the following code? Please explain***
 
@@ -860,8 +940,9 @@ var Employee = {
 };
 var emp1 = Object.create(Employee);
 delete emp1.company;
-console.log(emp1.company); // Explain
+console.log(emp1.company); // If a property with the same name exists on the object's prototype chain, then, after deletion, the object will use the property from the prototype chain (in other words, delete only has an effect on own properties). emp1.hasOwnProperty('company') => false
 ```
+Ouput: xyz
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -872,18 +953,20 @@ console.log(emp1.company); // Explain
 ```javascript
 var trees = ["xyz", "xxxx", "test", "ryan", "apple"];
 delete trees[3];
-console.log(trees.length); // Explain
+console.log(trees.length); // When you delete an array element, the array length is not affected. This holds even if you delete the last element of the array.
 ```
+Output: 5
 
 ## Q. ***What will be the output of the following code? Please explain***
 
 ```javascript
 var bar = true;
-console.log(bar + 0); // Explain
-console.log(bar + "xyz"); // Explain
-console.log(bar + true); // Explain
-console.log(bar + false); // Explain
+console.log(bar + 0); // 1, true has the value of 1
+console.log(bar + "xyz"); // truexyz, works as expected
+console.log(bar + true); // 2
+console.log(bar + false); // 1, false has the value of 0
 ```
+
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -894,15 +977,15 @@ console.log(bar + false); // Explain
 ```javascript
 var z = 1,
   y = (z = typeof y);
-console.log(y); // Explain
+console.log(y); // undefined, typeof y is undefined, then z is assigned to undefined => y is undefined
 ```
 
 ```javascript
 var z;
 z = 1;
 var y;
-z = typeof y;
-y = z;
+z = typeof y; // typeof y = undefined
+y = z; // both y and z are undefined
 ```
 
 ## Q. ***What will be the output of the following code? Please explain***
@@ -938,12 +1021,12 @@ typeof bar();
 
 ```javascript
 var foo = function bar() {
-  // foo is visible here // Explain
-  // bar is visible here // Explain
-  console.log(typeof bar()); // Works here :) // Explain
+  // foo is visible here // works as expected
+  // bar is visible here // The function bar is only local to the function body.
+  console.log(typeof bar()); // Works here :)
 };
-// foo is visible here // Explain
-// bar is undefined here // Explain
+// foo is visible here // works as expected
+// bar is undefined here
 ```
 
 <div align="right">
@@ -953,14 +1036,16 @@ var foo = function bar() {
 ## Q. ***What is the output of the following? Please explain***
 
 ```javascript
-bar();
+bar(); // bar is called first
 (function abc() {
   console.log("something");
 })();
-function bar() {
-  console.log("bar got called"); 
+function bar() { // get hoisted
+  console.log("bar got called");
 }
 ```
+Output: bar got called <br/>
+something
 
 ## Q. ***What will be the output of the following code? Please explain***
 
@@ -968,11 +1053,11 @@ function bar() {
 var salary = "1000$";
 
 (function () {
-  console.log("Original salary was " + salary); // Explain
+  console.log("Original salary was " + salary); // undefined, salary refers to the local salary
 
-  var salary = "5000$";
+  var salary = "5000$"; // get hoisted
 
-  console.log("My New Salary " + salary); // Explain
+  console.log("My New Salary " + salary); // 5000$
 })();
 ```
 
@@ -981,11 +1066,11 @@ var salary = "1000$";
 
 (function () {
   var salary = undefined;
-  console.log("Original salary was " + salary); // Explain
+  console.log("Original salary was " + salary); // works as expected
 
   salary = "5000$";
 
-  console.log("My New Salary " + salary); // Explain
+  console.log("My New Salary " + salary); // works as expected
 })();
 ```
 
@@ -1001,7 +1086,9 @@ function User(name) {
 }
 
 var person = (new User("xyz")["location"] = "USA");
-console.log(person); // Explain
+console.log(person); // USA
+// new User("xyz") => { name: "xyz" }, doesn't have a location property, so it is undefined
+// then it is assigned to the string "USA" => person = "USA"
 ```
 
 <div align="right">
@@ -1014,7 +1101,7 @@ console.log(person); // Explain
 var strA = "hi there";
 var strB = strA;
 strB = "bye there!";
-console.log(strA); // Explain
+console.log(strA); // hi there, works as expected
 ```
 
 <div align="right">
@@ -1027,7 +1114,7 @@ console.log(strA); // Explain
 var objA = { prop1: 42 };
 var objB = objA;
 objB.prop1 = 90;
-console.log(objA); // Explain
+console.log(objA); // { prop1: 90 }, prop1 in objB refers to the same prop1 in objA
 ```
 
 ## Q. ***What would be the output of following code? Please explain***
@@ -1036,7 +1123,7 @@ console.log(objA); // Explain
 var objA = { prop1: 42 };
 var objB = objA;
 objB = {};
-console.log(objA); // Explain
+console.log(objA); // { prop1: 42 }, works as expected
 ```
 
 <div align="right">
@@ -1049,7 +1136,7 @@ console.log(objA); // Explain
 var arrA = [0, 1, 2, 3, 4, 5];
 var arrB = arrA;
 arrB[0] = 42;
-console.log(arrA); // Explain
+console.log(arrA); // [ 42, 1, 2, 3, 4, 5 ], arrB[0] refers to the same element arrA[0]
 ```
 
 ## Q. ***What would be the output of following code? Please explain***
@@ -1058,7 +1145,7 @@ console.log(arrA); // Explain
 var arrA = [0, 1, 2, 3, 4, 5];
 var arrB = arrA.slice();
 arrB[0] = 42;
-console.log(arrA); // Explain
+console.log(arrA); // [0, 1, 2, 3, 4, 5], the slice() method returns a shallow copy of a portion of an array into a new array object => works as expected
 ```
 
 <div align="right">
@@ -1077,7 +1164,16 @@ var arrA = [
 ];
 var arrB = arrA;
 arrB[0].prop1 = 42;
-console.log(arrA); // Explain
+console.log(arrA); // as explained above, works as expected
+/* 
+[
+  { prop1: 42 },
+  { someProp: "also value of array A!" },
+  3,
+  4,
+  5,
+];
+*/
 ```
 
 ## Q. ***What would be the output of following code? Please explain***
@@ -1090,10 +1186,19 @@ var arrA = [
   4,
   5,
 ];
-var arrB = arrA.slice();
-arrB[0].prop1 = 42;
-arrB[3] = 20;
-console.log(arrA); // Explain
+var arrB = arrA.slice(); // slice() method returns a shallow copy of a portion of an array into a new array object 
+arrB[0].prop1 = 42; // arrB[0].prop1 refers to arrA[0].prop1
+arrB[3] = 20; // shallow copy, arrA[3] is not changed
+console.log(arrA); // => works as expected
+/* 
+[
+  { prop1: 42 },
+  { someProp: "also value of array A!" },
+  3,
+  4,
+  5,
+];
+*/
 ```
 
 ```javascript
@@ -1102,7 +1207,7 @@ function slice(arr) {
   for (i = 0; i < arr.length; i++) {
     result.push(arr[i]);
   }
-  return result; // Explain
+  return result; // ??????????????????????????????
 }
 ```
 
@@ -1117,7 +1222,7 @@ function slice(arr) {
 3.  Type Error
 4.  ReferenceError: employeeId is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 4. ReferenceError: employeeId is not defined, works as expected
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -1131,7 +1236,7 @@ var employeeId = "19000";
 3.  Type Error
 4.  ReferenceError: employeeId is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. undefined, var employeeId is hoisted
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -1148,7 +1253,7 @@ var employeeId = "1234abe";
 3.  Type Error
 4.  ReferenceError: employeeId is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. undefined, var employeeId is hoisted, employeeId refers to the local variable
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1172,7 +1277,7 @@ var employeeId = "1234abe";
 3.  '1234abe'
 4.  ReferenceError: employeeId is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. undefined, as explained above
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -1190,7 +1295,7 @@ _Answer_and_Explain:
 3.  'Hi I am inside displayFunc'
 4.  ReferenceError: displayFunc is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. undefined, as explained above
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1213,7 +1318,7 @@ console.log(employeeId);
 3.  'abc123'
 4.  ReferenceError: employeeId is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. '123bcd', employeeId is reassigned to '123bcd'
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -1235,7 +1340,7 @@ console.log(employeeId);
 3.  'abc123'
 4.  ReferenceError: employeeId is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. 'abc123', the function employeeId is hoisted, employeeId in foo refers to the local variable
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1262,7 +1367,7 @@ foo();
 3.  string
 4.  ReferenceError: employeeId is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. function, as explained above
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -1284,7 +1389,7 @@ foo();
 3.  'Car'
 4.  ReferenceError: product is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. undefined, both employeeId and product are hoisted, but employeeId() runs first, so it logs undefined
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1312,7 +1417,7 @@ _Answer_and_Explain:
 3.  function function
 4.  ReferenceError: bar is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 3. function function, works as expected
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1344,7 +1449,7 @@ _Answer_and_Explain:
 3.  ["name", "salary", "country", "phoneNo"]
 4.  ["name", "salary", "country"]
 
-_Answer_and_Explain:
+_Answer_and_Explain: 3. ["name", "salary", "country", "phoneNo"], works as expected
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1376,7 +1481,7 @@ _Answer_and_Explain:
 3.  ["name", "salary", "country", "phoneNo"]
 4.  ["name", "salary", "country"]
 
-_Answer_and_Explain:
+_Answer_and_Explain: 4. ["name", "salary", "country"], enumerable is false so this property doesn't show up during enumeration
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1404,7 +1509,7 @@ _Answer_and_Explain:
 3.  true false
 4.  true true
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. false false, both objA and objB are objects, but they are not the same object, so they are not equal
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -1422,7 +1527,7 @@ _Answer_and_Explain:
 3.  true false
 4.  true true
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. false false, as explained above
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1448,7 +1553,7 @@ _Answer_and_Explain:
 3.  true false
 4.  true true
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. false false, as explained above
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -1468,7 +1573,7 @@ _Answer_and_Explain:
 3.  true false
 4.  true true
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. false false, as explained above
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1492,7 +1597,7 @@ _Answer_and_Explain:
 3.  true false
 4.  true true
 
-_Answer_and_Explain:
+_Answer_and_Explain: true true, both objA.toString() and objB.toString() return the same string '[object Object]', so they are equal
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -1514,7 +1619,7 @@ _Answer_and_Explain:
 3.  true true true true
 4.  true true false false
 
-_Answer_and_Explain:
+_Answer_and_Explain: 3. true true true true, objA and objB refers to the same object, as well as objA.toString() and objB.toString() return the same string '[object Object]'
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1539,7 +1644,7 @@ _Answer_and_Explain:
 3.  foo foo
 4.  bar foo
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. bar bar, works as expected
 
 ## Q. ***What would be the output of following code? Please explain***
 
