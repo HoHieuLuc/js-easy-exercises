@@ -11,21 +11,48 @@
 // function that gets called with each element in the tree
 
 class Node {
-  
+    constructor(data) {
+        this.data = data;
+        this.children = [];
+    }
+        
+    add(data) {
+        this.children.push(new Node(data));
+    }
+
+    remove(data) {
+        const indexOfData = this.children.findIndex(child => child.data === data);
+        if (indexOfData === -1) {
+            return;
+        }
+        this.children.splice(indexOfData, 1);
+    }
 }
 
 class Tree {
-  constructor() {
-    
-  }
+    constructor() {
+        this.root = null;
+    }
 
-  traverseBF(fn) {
-    
-  }
+    traverseBF(fn) {
+        // transverse the tree breadth first
+        const queue = [this.root];
+        while (queue.length) {
+            const node = queue.shift();
+            queue.push(...node.children);
+            fn(node);
+        }
+    }
 
-  traverseDF(fn) {
-   
-  }
+    traverseDF(fn) {
+        // transverse the tree depth first
+        const stack = [this.root];
+        while (stack.length) {
+            const node = stack.shift();
+            stack.unshift(...node.children);
+            fn(node);
+        }
+    }
 }
 
 module.exports = { Tree, Node };
