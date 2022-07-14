@@ -14,14 +14,6 @@ class Stack {
     peek() {
         return this.data[this.data.length - 1];
     }
-
-    shift() {
-        return this.data.shift();
-    }
-
-    getFirst() {
-        return this.data[0];
-    }
 }
 
 module.exports = Stack;

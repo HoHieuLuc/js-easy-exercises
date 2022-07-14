@@ -16,19 +16,40 @@ const Stack = require('./stack');
 
 class Queue {
     constructor() {
-        this.stack = new Stack();
+        this.firstStack = new Stack();
+        this.secondStack = new Stack();
     }
 
     add(record) {
-        this.stack.push(record);
+        this.firstStack.push(record);
     }
 
     remove() {
-        return this.stack.shift();
+        while (this.firstStack.peek()) {
+            this.secondStack.push(this.firstStack.pop());
+        }
+        // secondStack is now reversed of firstStack
+        // this.secondStack.pop() is the first element in firstStack
+        const firstInQueue = this.secondStack.pop();
+        // add secondStack back to firstStack
+        while (this.secondStack.peek()) {
+            this.firstStack.push(this.secondStack.pop());
+        }
+
+        return firstInQueue;
     }
 
     peek() {
-        return this.stack.getFirst();
+        while (this.firstStack.peek()) {
+            this.secondStack.push(this.firstStack.pop());
+        }
+
+        const firstInQueue = this.secondStack.peek();
+        while (this.secondStack.peek()) {
+            this.firstStack.push(this.secondStack.pop());
+        }
+
+        return firstInQueue;
     }
 }
 
