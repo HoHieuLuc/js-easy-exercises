@@ -940,7 +940,7 @@ var Employee = {
 };
 var emp1 = Object.create(Employee);
 delete emp1.company;
-console.log(emp1.company); // If a property with the same name exists on the object's prototype chain, then, after deletion, the object will use the property from the prototype chain (in other words, delete only has an effect on own properties). emp1.hasOwnProperty('company') => false
+console.log(emp1.company); // delete only has an effect on own properties. emp1.hasOwnProperty('company') => false
 ```
 Ouput: xyz
 
@@ -1667,7 +1667,11 @@ _Answer_and_Explain: 2. bar bar, works as expected
 3.  foo foo
 4.  bar foo
 
-_Answer_and_Explain:
+_Answer_and_Explain: 3. foo foo <br/>
+The Object.create() method creates a new object with the specified prototype object and properties. So objA doesn't have a property called foo, it is present inside the prototype of objA (objA.\_\_proto\_\_.foo).<br/>
+We assign the objA to objB, now both variables points to same object. And we create a new foo property in the object. This foo property is different from the foo property inside the prototype object. <br/>
+When we delete the foo property in the objA we are just deleting the property we later added (objB.foo = "bar"). The foo property inside prototype object is still available and takes over when the foo property is deleted from the object itself. <br/>
+https://stackoverflow.com/questions/49186581/delete-operator-not-deleting-object-property
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1694,7 +1698,7 @@ _Answer_and_Explain:
 3.  foo foo
 4.  undefined bar
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. undefined undefined, works as expected
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -1711,7 +1715,7 @@ _Answer_and_Explain:
 3.  ["100"] 1
 4.  ReferenceError: array is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 3. ["100"] 1, works as expected
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1736,7 +1740,7 @@ _Answer_and_Explain:
 3.  [] [] ['1',2,'3',4,5.6] 5
 4.  [] [] [Array[5]] 5
 
-_Answer_and_Explain:
+_Answer_and_Explain: none of the above, answer: [] [ <100 empty items> ] [Array[5]] 1, works as expected
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -1754,7 +1758,7 @@ _Answer_and_Explain:
 3.  6
 4.  undefined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. 11, directly setting a slot with index greater than array.length will create empty slots until the index is reached. When you delete an array element, the array length is not affected. This holds even if you delete the last element of the array.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1776,7 +1780,7 @@ _Answer_and_Explain:
 3.  6
 4.  undefined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 3. 6, works as expected
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -1794,7 +1798,7 @@ _Answer_and_Explain:
 3.  Type Error
 4.  undefined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. [ 'dog', 'rat', 'goat', 'cow', 'horse', 'cat' ], works as expected
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1817,7 +1821,8 @@ _Answer_and_Explain:
 3.  1 -1 -1 -1
 4.  1 undefined -1 4
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. 1 -1 -1 4, indexOf() compares searchElement to elements of the Array using strict equality (the same method used by the === or triple-equals operator). <br/>
+{ name: "John" }, { name: "John" } are 2 different objects, [3] and [3] are 2 different arrays
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -1835,7 +1840,7 @@ _Answer_and_Explain:
 3.  1 1 -1
 4.  1 undefined undefined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. 1 6 -1, works as expected
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1864,7 +1869,7 @@ _Answer_and_Explain:
 3.  [ 2, 4, 8, 12, 16 ] true
 4.  [ 2, 4, 8, 12, 16 ] false
 
-_Answer_and_Explain:
+_Answer_and_Explain: 3. [2, 4, 8, 12, 16] true, works as expected
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -1899,7 +1904,12 @@ _Answer_and_Explain:
    [ 2, '12', true,false ]
    [ 2, '12', true,false]
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. [ 2, '12', true ] x 4 <br/>
+- containers.filter(Boolean): Boolean is used as a function, it's convert value to boolean value.
+- containers.filter(Number): Number is used as a function, it's convert value to number value.
+- containers.filter(String): String is used as a function, it's convert value to string value.
+- containers.filter(Object): Object is used as a function, it returns an object of a Type that corresponds to the given value.
+Since 0, false, "" are falsy, they're filtered out.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1939,7 +1949,7 @@ _Answer_and_Explain:
    []
    [ 'foo', 'bar', 'john', 'ritz' ]
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. works as expected
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -1957,7 +1967,7 @@ _Answer_and_Explain:
 3.  [ 'bar', 'john' ] [ 'bar', 'john' ] [ 'bar', 'john' ]
 4.  [ 'bar', 'john' ] [] []
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. works as expected
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -1978,7 +1988,7 @@ _Answer_and_Explain:
 3.  [ 15, 16, 2, 23, 42, 8 ]
 4.  [ 2, 8, 15, 16, 23, 42 ]
 
-_Answer_and_Explain:
+_Answer_and_Explain: 3, the default sort order is ascending, built upon converting the elements into strings, then comparing their sequences of UTF-16 code units values.
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -2003,7 +2013,7 @@ console.log(funcA());
 3.  Type Error
 4.  ReferenceError: this is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1, since the following code is not in strict mode, and because the value of this is not set by the call, this will default to the global object, which is window in a browser => just don't do it man.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2027,7 +2037,9 @@ console.log(obj.innerMessage);
 3.  Type Error
 4.  undefined true
 
-_Answer_and_Explain:
+_Answer_and_Explain: 4.
+- innerMessage is a boolean value, the function runs but doens't return anything => (function () {...})() => undefined => !undefined => true.
+- Since the code is not in strict mode, and because the value of this is not set by the call, this will default to the global object, which is window in a browser => this.message = undefined.
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -2047,7 +2059,7 @@ console.log(obj.innerMessage());
 3.  Type Error
 4.  ReferenceError: this.message is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1, works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2072,7 +2084,7 @@ console.log(obj.innerMessage());
 3.  undefined
 4.  ReferenceError: this.message is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: undefined undefined, works as expected.
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -2094,7 +2106,7 @@ console.log(obj.innerMessage());
 3.  undefined
 4.  ReferenceError: self.message is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: Hello undefined, works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2116,7 +2128,7 @@ console.log(myFunc());
 3.  undefined
 4.  ReferenceError: this.message is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: undefined undefined, works as expected.
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -2134,7 +2146,7 @@ console.log(myFunc());
 3.  undefined
 4.  ReferenceError: this.message is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. 'Hi John', works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2155,7 +2167,7 @@ console.log(myFunc());
 3.  undefined
 4.  ReferenceError: this.message is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. 'Hi John', works as expected.
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -2173,7 +2185,7 @@ console.log(myFunc("a", "b", "c", "d"));
 3.  undefined
 4.  ReferenceError
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. 2 2 2, the length property indicates the number of parameters expected by the function (param1, param2).
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2195,7 +2207,7 @@ console.log(myFunc("a", "b", "c", "d"));
 3.  undefined
 4.  ReferenceError
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. 0 2 4, arguments is an Array-like object accessible inside functions that contains the values of the arguments passed to that function.
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -2223,7 +2235,7 @@ Person.displayName();
 3.  John undefined
 4.  John John
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. John Person, this inside Person.displayName refers to the Person function => this.name returns the function name 'Person'.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2250,7 +2262,7 @@ console.log(userInfo.userName);
 3.  12345678 undefined
 4.  undefined undefined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 3. 12345678 undefined, userInfo = { pwd: password }
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -2267,7 +2279,7 @@ console.log(Employee.employeeId);
 3.  bq1uy
 4.  undefined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 4. undefined, works as expected
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2293,7 +2305,7 @@ console.log(new Employee().employeeId);
 3.  bq1uy 1BJKSJ kj182
 4.  undefined 1BJKSJ kj182
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. bq1uy 1BJKSJ bq1uy, works as expected.
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -2314,7 +2326,7 @@ var employeeId = "aq123";
 3.  aq123 aq123
 4.  foo123 undefined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. foo123 aq123, works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2337,7 +2349,7 @@ _Answer_and_Explain:
 3.  World
 4.  [ 'W', 'o', 'r', 'l', 'd' ]
 
-_Answer_and_Explain:
+_Answer_and_Explain: 4. [ 'W', 'o', 'r', 'l', 'd' ], toGreet is an array, [].filter.call(greet, ...) allows us to use the filter method on the greet string (making the function treats the string as an array of chars).
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -2368,7 +2380,7 @@ _Answer_and_Explain:
 3. Total amount left in account: 3600 Total amount left in account: 3300
 4. Total amount left in account: 5600 Total amount left in account: 5600
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. Total amount left in account: 5600 Total amount left in account: 5300, works as expected
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2404,7 +2416,7 @@ _Answer_and_Explain:
 3. 5600 3300 5100
 4. undefined undefined undefined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. 5600 5300 5100, works as expected
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2440,7 +2452,7 @@ _Answer_and_Explain:
 3. 5600 3300 5100
 4. undefined undefined undefined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. 3600 3300 3100, works as expected
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2461,7 +2473,7 @@ _Answer_and_Explain:
 3. Window
 4. undefined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. Hello John, works as expected.
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -2485,7 +2497,7 @@ getDataFromServer("www.google.com").then(function (name) {
 3. Reference Error
 4. fn is not defined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. John, fn(name), name refers to the local variable name, which is "John".
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2533,7 +2545,7 @@ _Answer_and_Explain:
    [42, 23, 16, 15, 8, 2]
 4. Reference Error
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. [ 2, 8, 15, 16, 23, 42 ] x 3, works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2559,7 +2571,7 @@ _Answer_and_Explain:
 3. Reference Error
 4. Uncaught TypeError: Cannot read property 'fullName' of undefined
 
-_Answer_and_Explain:
+_Answer_and_Explain: 4. Uncaught TypeError: Cannot read property 'fullName' of undefined, unreachable code(return;).
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -2577,7 +2589,7 @@ console.log(numb);
 3. 2
 4. (2,4,5)
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. 5, the comma operator (,) evaluates each of its operands (from left to right) and returns the value of the last operand. 
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2599,7 +2611,7 @@ console.log(numb);
 3. ""
 4. 0
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2. undefined, works as expected.
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -2624,7 +2636,7 @@ console.log(mul(2)(3)[1](4));
 3. Reference Error
 4. 10, 6
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. 6, 10, works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2652,7 +2664,7 @@ console.log(mul(2)(3).sum(4));
 3. Reference Error
 4. 10, 6
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. 6, 10, works as expected.
 
 ## Q. ***What would be the output of following code? Please explain***
 
@@ -2676,7 +2688,7 @@ console.log(mul(2)(3)(4)(5)(6));
 3. Reference Error
 4. Type Error
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1. 720, works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2688,7 +2700,7 @@ _Answer_and_Explain:
 var foo = 10 + "20";
 ```
 
-_Answer_and_Explain:
+_Answer_and_Explain: 1020, works as expected.
 
 ## Q. ***How would you make this work? Please explain***
 
@@ -2698,6 +2710,16 @@ add(2)(5); // 7
 ```
 
 _Answer_and_Explain_and_Code:
+```javascript
+const add = (first, second) => {
+  if (!second) {
+    // if the second value is not provided, return a function that takes the second value
+    // that function will be called when the second value is provided
+    return (newSecond) => add(first, newSecond);
+  }
+  return first + second;
+};
+```
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2709,7 +2731,7 @@ _Answer_and_Explain_and_Code:
 "i'm a lasagna hog".split("").reverse().join("");
 ```
 
-_Answer_and_Explain:
+_Answer_and_Explain: goh angasal a m'i, works as expected.
 
 ## Q. ***What is the value of `window.foo`? Please explain***
 
@@ -2717,7 +2739,7 @@ _Answer_and_Explain:
 window.foo || (window.foo = "bar");
 ```
 
-_Answer_and_Explain:
+_Answer_and_Explain: bar, the logical OR (||) operator returns the right-hand side operand if the left operand is any falsy value (window.foo is undefined).
 
 ## Q. ***What is the outcome of the two alerts below? Please explain***
 
@@ -2730,7 +2752,7 @@ var foo = "Hello";
 alert(foo + bar);
 ```
 
-_Answer_and_Explain:
+_Answer_and_Explain: Hello World, ReferenceError: bar is not defined, works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2744,7 +2766,7 @@ foo.push(1);
 foo.push(2);
 ```
 
-_Answer_and_Explain:
+_Answer_and_Explain: 2, works as expected.
 
 ## Q. ***What is the value of `foo.x`? Please explain***
 
@@ -2754,7 +2776,7 @@ var bar = foo;
 foo.x = foo = { n: 2 };
 ```
 
-_Answer_and_Explain:
+_Answer_and_Explain: undefined, this question is horrible. https://stackoverflow.com/questions/32342809/javascript-code-trick-whats-the-value-of-foo-x
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2770,17 +2792,23 @@ setTimeout(function () {
 console.log("three");
 ```
 
-_Answer_and_Explain:
+_Answer_and_Explain: one three two, event loop, works as expected.
 
 ## Q. ***What would be the result of 1+2+'3'? Please explain***
 
-_Answer_and_Explain:
+_Answer_and_Explain: 33, 1 + 2 = 3, 3 + '3' = 33
 
 ## Q. ***Write a script that returns the number of occurrences of character given a string as input? Please explain***
 
 ```javascript
 function countCharacters(str) {
-  return // one line only
+  // split the string into an array of characters
+  // then count the number of times the character appears in the array using reduce
+  // acc is the object that holds the count of each character
+  return str.split("").reduce((acc, curr) => {
+    acc[curr] = (acc[curr] || 0) + 1;
+    return acc;
+  }, {});
 }
 console.log(countCharacters("the brown fox jumps over the lazy dog"));
 ```
@@ -2795,7 +2823,7 @@ console.log(countCharacters("the brown fox jumps over the lazy dog"));
 "i'm a lasagna hog".split("").reverse().join("");
 ```
 
-_Answer_and_Explain:
+_Answer_and_Explain: goh angasal a m'i, works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -2811,16 +2839,16 @@ setTimeout(function () {
 console.log("three");
 ```
 
-_Answer_and_Explain:
+_Answer_and_Explain: one three two, as explained above.
 
 ## Q. ***For which value of x the results of the following statements are not the same? Please explain***
 
 ```javascript
-//  if( x <= 100 ) {...}
+if( x <= 100 ) {...}
 if( !(x > 100) ) {...}
 ```
 
-_Answer_and_Explain:
+_Answer_and_Explain: any value that is NaN when converted to a number. NaN <= 100 is false and NaN > 100 is also false.
 
 ## Q. ***What is g value? Please explain***
 
@@ -2844,6 +2872,8 @@ f = g = 0;
 })();
 ```
 
+_Answer_and_Explain: g = 6, explain? no i don't think will, i don't even bother reading it.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -2857,6 +2887,8 @@ function b(b) {
 b(b.bind(b));
 ```
 
+_Answer_and_Explain: nothing.
+
 ## Q. ***What will be the output? Please explain***
 
 ```javascript
@@ -2866,6 +2898,8 @@ c = (c) => {
 c(c.bind(c));
 ```
 
+_Answer_and_Explain: nothing.
+
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
 ```javascript
@@ -2874,15 +2908,17 @@ g = 1 && g++;
 console.log(g);
 ```
 
+_Answer_and_Explain: 0, g = 1 && g++ => g = 1 && 0 => g = 0;
+
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
 ```javascript
-!function(){}()
-function(){}()
-true && function(){}()
-(function(){})()
-function(){}
-!function(){}
+!function(){}() // true, define then run the function, !undefined = true
+function(){}() // undefined, the function returns nothing
+true && function(){}() // true && undefined => undefined
+(function(){})() // undefined, the function returns nothing
+function(){} // function
+!function(){} // false, function is truthy => !function(){} = false
 ```
 
 ## Q. ***What will expression return? Please explain***
@@ -2895,6 +2931,8 @@ var a = (b = true),
 })();
 ```
 
+_Answer_and_Explain: [Function: c], no
+
 ## Q. ***Predict the output of the following JavaScript code? Please explain***
 
 ```javascript
@@ -2903,6 +2941,8 @@ var a = true;
   return a;
 })();
 ```
+
+_Answer_and_Explain: [Function: a], return a, a refers to the local function a
 
 ## Q. ***What will be the output? Please explain***
 
@@ -2919,6 +2959,8 @@ try {
 }
 ```
 
+_Answer_and_Explain: [Function: v], return v, v refers to the local function v (v = function (a))
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -2934,6 +2976,12 @@ for (var i = 0; i < arr.length; i++) {
 }
 ```
 
+_Answer_and_Explain: after about 3000ms: Index: 4, element: undefined <br/>
+Index: 4, element: undefined <br/>
+Index: 4, element: undefined <br/>
+Index: 4, element: undefined <br/>
+event loop, works as expected.
+
 ## Q. ***What will be the output of the following code? Please explain***
 
 ```javascript
@@ -2944,6 +2992,8 @@ var output = (function (x) {
 
 console.log(output);
 ```
+
+_Answer_and_Explain: 0, delete operator removes a property from an object, x is a local variable, so delete does nothing.
 
 ## Q. ***What will be the output of the following code? Please explain***
 
@@ -2956,6 +3006,8 @@ delete emp1.company;
 console.log(emp1.company);
 ```
 
+_Answer_and_Explain: xyz, delete only has an effect on own properties. emp1.hasOwnProperty('company') => false, but it has emp1.\_\_proto\_\_company
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -2963,6 +3015,10 @@ console.log(emp1.company);
 ## Q. ***Make this work:
 
 ```javascript
+const duplicate = (array) => {
+  return [...array, ...array];
+}
+
 duplicate([1, 2, 3, 4, 5]); // [1,2,3,4,5,1,2,3,4,5]
 ```
 
@@ -2974,7 +3030,7 @@ duplicate([1, 2, 3, 4, 5]); // [1,2,3,4,5,1,2,3,4,5]
 
 ```javascript
 var arr = [10, 32, 65, 2];
-for (var i = 0; i < arr.length; i++) {
+for (let i = 0; i < arr.length; i++) { // change var i to let i (var i makes i become a global variable)
   setTimeout(function () {
     console.log("The index of this number is: " + i);
   }, 3000);
@@ -2988,15 +3044,16 @@ for (var i = 0; i < arr.length; i++) {
 ## Q. ***What will be the output of the following code? Please explain***
 
 ```javascript
-console.log(eval("10 + 10")); // Explain
+// eval() function evaluates JavaScript code represented as a string and returns its completion value. 
+console.log(eval("10 + 10")); // => 10 + 10 = 20
 
-console.log(eval("5 + 5" + 10)); // Explain
+console.log(eval("5 + 5" + 10)); // "5 + 5" + 10 gets parsed as "5 + 510" => 515
 
-console.log(eval("5 + 5 + 5" + 10)); // Explain
+console.log(eval("5 + 5 + 5" + 10)); // "5 + 5 + 5" + 10 gets parsed as "5 + 5 + 510" => 520
 
-console.log(eval(10 + "5 + 5")); // Explain
+console.log(eval(10 + "5 + 5")); // 10 + "5 + 5" gets parsed as "105 + 5" => 110
 
-console.log(eval(10 + "5 + 5 + 5")); // Explain
+console.log(eval(10 + "5 + 5 + 5")); // 10 + "5 + 5 + 5" gets parsed as "105 + 5 + 5" => 115
 ```
 
 ## Q. ***What will be the output of the following code? Please explain***
@@ -3009,7 +3066,7 @@ var b = eval("2 + 2") + "<br>";
 var c = eval("x + 30") + "<br>";
 
 let result = a + b + c;
-console.log(result); // Explain
+console.log(result); // 200<br>4<br>40<br>, works as expected.
 ```
 
 <div align="right">
@@ -3022,31 +3079,32 @@ console.log(result); // Explain
 // Example 01:
 var prices = [12, 20, 18];
 var newPriceArray = [...prices];
-console.log(newPriceArray);
+console.log(newPriceArray); // [12, 20, 18]
 
 // Example 02:
 var alphabets = ["A", ..."BCD", "E"];
-console.log(alphabets);
+console.log(alphabets); // ["A", "B", "C", "D", "E"]
 
 // Example 03:
 var prices = [12, 20, 18];
 var maxPrice = Math.max(...prices);
-console.log(maxPrice);
+console.log(maxPrice); // 20
 
 // Example 04:
 var max = Math.max(..."43210");
-console.log(max);
+console.log(max); // 4
 
 // Example 05:
 const fruits = ["apple", "orange"];
 const vegetables = ["carrot", "potato"];
 
 const result = ["bread", ...vegetables, "chicken", ...fruits];
-console.log(result);
+console.log(result); // ["bread", "carrot", "potato", "chicken", "apple", "orange"]
 
 // Example 06:
 const country = "USA";
-console.log([...country]);
+console.log([...country]); // ["U", "S", "A"]
+// everything works as expected.
 ```
 
 <div align="right">
@@ -3056,30 +3114,30 @@ console.log([...country]);
 ## Q. ***Given and object and property path. Get value from property path***
 
 ```javascript
-function getPropertyValue(TEMP_OBJECT, path) {
-  return // One line only
+function getPropertyValue(TEMP_OBJECT, path = '') {
+  return path.split('.').reduce((acc, curr) => acc[curr], TEMP_OBJECT);
 }
 
-//Input :
-let srcObject = {
-    'system' : {
-        'database' : {
-              '0' : {
-                'host' : '54.232.122',
-                'port' : 3306
-             },
-              '1' : {
-                'host' : '54.232.123',
-             },
-             'port' : 3307
-              '2' : {
-                'host' : '54.232.123',
-             }
-       }
-   }
-},
-path = "system.database.1.port";
+const srcObject = {
+  'system': {
+  'database': {
+      '0': {
+        'host': '54.232.122',
+        'port': 3306
+      },
+      '1': {
+        'host': '54.232.123',
+        'port': 3307,
+      },
+      '2': {
+        'host': '54.232.123',
+      }
+    }
+  }
+};
+const path = "system.database.1.port";
 
+console.log(getPropertyValue(srcObject, path));
 //Output: 3307
 ```
 
@@ -3088,8 +3146,10 @@ path = "system.database.1.port";
 </div>
 
 ## Q. ***How to filter object from Arrays of Objects***
+use filter method
 
 ## Q. ***How to replace all the occurrences of string***
+use replace, replaceAll method i guess...
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -3099,7 +3159,10 @@ path = "system.database.1.port";
 
 ```javascript
 function countCharacters(str) {
-  return // One line only
+  return str.split("").reduce((acc, curr) => {
+    acc[curr] = (acc[curr] || 0) + 1;
+    return acc;
+  }, {});
 }
 console.log(countCharacters("the brown fox jumps over the lazy dog"));
 ```
@@ -3112,7 +3175,12 @@ console.log(countCharacters("the brown fox jumps over the lazy dog"));
 
 ```javascript
 function charCount(str, searchChar) {
-  
+  return str.split('').reduce((acc, curr) => {
+    if (curr === searchChar) {
+      acc++;
+    }
+    return acc;
+  }, 0);
 }
 console.log(charCount("the brown fox jumps over the lazy dog", "o"));
 ```
@@ -3125,13 +3193,21 @@ console.log(charCount("the brown fox jumps over the lazy dog", "o"));
 
 ```javascript
 function recursiveFactorial(n) {
-  
+  if (n === 0) {
+    return 1;
+  }
+
+  return n * recursiveFactorial(n - 1);
 }
 
 console.log(recursiveFactorial(5));
 
 function factorial(n) {
-  
+  let result = 1;
+  for (let i = 1; i <= n; i++) {
+    result *= i;
+  }
+  return result;
 }
 
 console.log(factorial(5));
@@ -3148,7 +3224,13 @@ console.log(factorial(5));
 // Memoization fibonnaci
 
 function fibonnaci(num, memo = {}) {
-  
+  if (memo[num]) {
+    return memo[num];
+  }
+  if (num < 2) {
+    return num;
+  }
+  return memo[num] = fibonnaci(num - 1, memo) + fibonnaci(num - 2, memo);
 }
 
 console.log(fibonnaci(5)); // 8
@@ -3157,7 +3239,9 @@ console.log(fibonnaci(5)); // 8
 ## Q. ***Random Number between min and max***
 
 ```javascript
-// 5 to 7 - One line only
+function getRandomInt(min, max) {
+  return Math.random() * (max - min) + min;
+}
 ```
 
 <div align="right">
@@ -3168,7 +3252,7 @@ console.log(fibonnaci(5)); // 8
 
 ```javascript
 function reverse(num) {
-  
+  return Number(num.toString().split('').reverse().join(''));
 }
 
 console.log(reverse(12345));
@@ -3182,13 +3266,15 @@ console.log(reverse(12345));
 
 ```javascript
 var arr = [1, 2, 3, 5, 1, 5, 9, 1, 2, 8];
-function removeDuplicate() {
-  
+function removeDuplicates() {
+  return arr.filter((item, index) => arr.indexOf(item) === index);
 }
-console.log(removeDuplicates(arr)); // ["1", "2", "3", "5", "8", "9"] // O(n)
+console.log(removeDuplicates(arr)); // ["1", "2", "3", "5", "9", "8"] // O(n)
 
 // Es6
-
+function removeDuplicates(arr) {
+  return [...new Set(arr)];
+}
 ```
 
 <div align="right">
@@ -3199,12 +3285,29 @@ console.log(removeDuplicates(arr)); // ["1", "2", "3", "5", "8", "9"] // O(n)
 
 ```javascript
 function deepExtend(out = {}) {
-  
+  out = out || {};
+  for (let i = 1; i < arguments.length; i++) {
+    const obj = arguments[i];
+    if (!obj) {
+      continue;
+    } 
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        if (typeof obj[key] === 'object') {
+          out[key] = deepExtend(out[key], obj[key]);
+        }
+        else {
+          out[key] = obj[key];
+        }
+      }
+    }
+  }
+  return out;
 }
 
 //Alternative if there are no function
 
-console.log(deepExtend({}, { a: 1, b: { c: 2, d: 3 } }; // { e: 4, b: { f: 1 } }));
+console.log(deepExtend({}, { a: 1, b: { c: 2, d: 3 } }, { e: 4, b: { f: 1 } }));
 //output : { a: 1, b: {c: 2, d: 3, f: 1}, e: 4 }
 ```
 
@@ -3213,7 +3316,7 @@ console.log(deepExtend({}, { a: 1, b: { c: 2, d: 3 } }; // { e: 4, b: { f: 1 } }
 </div>
 
 ## Q. ***Sort ticket based on flying order.***
-
+Not enough clues to solve this question.
 ```javascript
 "use strict";
 
@@ -3240,7 +3343,7 @@ new SortTickets({
 </div>
 
 ## Q. ***Concurrent execute function based on input number***
-
+????????????
 ```javascript
 function concurrent(num) {
   
@@ -3278,18 +3381,29 @@ c.start();
 let a = [1, 2, 3, 4, 5];
 
 //Approach 1:
-
+const reverseArray1 = (arr = []) => {
+  let newArr = [];
+  for (let i = arr.length - 1; i >= 0; i--) {
+    newArr.push(arr[i]);
+  }
+  return newArr;
+}
 
 //Approach 2:
+const reverseArray2 = (arr = []) => {
+  return arr.reverse();
+}
 
-
-console.log(reverse);
+console.log(
+  reverseArray1(a),
+  reverseArray2(a)
+);
 ```
 
 ## Q. ***Rotate 2D array***
 
 ```javascript
-const transpose = "One line only"
+const transpose = (matrix) => matrix[0].map((col, i) => matrix.map(row => row[i]));
 
 console.log(
   transpose([
@@ -3303,7 +3417,7 @@ console.log(
 ## Q. ***Get Column from 2D Array***
 
 ```javascript
-const getColumn = "One line only"
+const getColumn = (matrix, column) => matrix.map(row => row[column]);
 
 const twoDimensionalArray = [
   [1, 2, 3],
@@ -3318,7 +3432,7 @@ console.log(getColumn(twoDimensionalArray, 1)); //Result = [2,5,8]
 
 ```javascript
 function topN(arr, num) {
-
+  return arr.sort((a, b) => b - a).slice(0, num);
 }
 
 console.log(topN([1, 8, 3, 4, 5], 2)); // [5,8]
@@ -3332,7 +3446,9 @@ console.log(topN([1, 8, 3, 4, 5], 2)); // [5,8]
 
 ```javascript
 function getQueryParams(obj) {
-  
+  return Object.entries(obj).map(([key, value]) => {
+    return `${key}="${value}"`;
+  }).join(' AND ');
 }
 
 console.log(
@@ -3352,7 +3468,9 @@ console.log(
 
 ```javascript
 function consecutiveOne(num) {
-  
+  const binary = num.toString(2);
+  const consecutiveOnes = binary.match(/1+/g);
+  return Math.max(...consecutiveOnes.map(x => x.length));
 }
 //13 = 1101 = 2
 //5 = 101 = 1
@@ -3374,7 +3492,40 @@ var input = [
 ];
 
 var spiralTraversal = function (matriks) {
-  
+  var result = [];
+  var row = 0;
+  var col = 0;
+  var maxRow = matrix.length - 1;
+  var maxCol = matrix[0].length - 1;
+  var direction = 0;
+  while (row <= maxRow && col <= maxCol) {
+    if (direction === 0) {
+      for (var i = col; i <= maxCol; i++) {
+        result.push(matrix[row][i]);
+      }
+      row++;
+      direction = 1;
+    } else if (direction === 1) {
+      for (var i = row; i <= maxRow; i++) {
+        result.push(matrix[i][maxCol]);
+      }
+      maxCol--;
+      direction = 2;
+    } else if (direction === 2) {
+      for (var i = maxCol; i >= col; i--) {
+        result.push(matrix[maxRow][i]);
+      }
+      maxRow--;
+      direction = 3;
+    } else if (direction === 3) {
+      for (var i = maxRow; i >= row; i--) {
+        result.push(matrix[i][col]);
+      }
+      col++;
+      direction = 0;
+    }
+  }
+  return result;
 };
 console.log(spiralTraversal(input)); // [1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 6, 7, 11, 10]
 ```
@@ -3387,7 +3538,7 @@ console.log(spiralTraversal(input)); // [1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5
 
 ```javascript
 function mergeSortedArray(arr1, arr2) {
-  // One line only
+  return [...new Set([...arr1, ...arr2].sort((a, b) => a - b))];
 }
 
 console.log(mergeSortedArray([1, 2, 3, 4, 5, 6], [0, 3, 4, 7])); // [0, 1, 2, 3, 4, 5, 6, 7]
@@ -3403,7 +3554,16 @@ console.log(mergeSortedArray([1, 2, 3, 4, 5, 6], [0, 3, 4, 7])); // [0, 1, 2, 3,
 const alphabetize = (word) => word.split("").sort().join("");
 
 function groupAnagram(wordsArr) {
-  
+  const anagrams = {};
+  wordsArr.forEach((word) => {
+    const sortedWord = alphabetize(word);
+    if (anagrams[sortedWord]) {
+      anagrams[sortedWord].push(word);
+    } else {
+      anagrams[sortedWord] = [word];
+    }
+  });
+  return anagrams;
 }
 
 console.log(
@@ -3427,8 +3587,27 @@ console.log(
 // if arr 6 X 6 then iterate it till 4 X 4  [reduce by two]
 // if arr 8 X 8 then iterate it till 6 X 6  [reduce by two]
 function main(arr) {
+  let maxScore = -Infinity;
+  for (let i = 0; i < arr.length - 2; i++) {
+    for (let j = 0; j < arr[i].length - 2; j++) {
+      let sum = arr[i][j] + arr[i][j + 1] + arr[i][j + 2] + arr[i + 1][j + 1] + arr[i + 2][j] + arr[i + 2][j + 1] + arr[i + 2][j + 2];
+      if (sum > maxScore) {
+        maxScore = sum;
+      }
+    }
+  }
   console.log(maxScore);
 }
+
+const array = [
+  [1, 2, 3, 0, 0],
+  [0, 0, 0, 0, 0],
+  [2, 1, 4, 0, 0],
+  [0, 0, 0, 0, 0],
+  [1, 1, 0, 1, 0]
+];
+
+main(array)
 ```
 
 <div align="right">
@@ -3448,7 +3627,14 @@ let data = [
 ];
 
 let newData = data.reduce((acc, item) => {
-  
+  if (!acc[item.vid]) {
+    acc[item.vid] = {
+      san: [],
+      vid: item.vid
+    };
+  }
+  acc[item.vid].san.push(item.san);
+  return acc;
 }, {});
 
 console.log(Object.keys(newData).map((key) => newData[key]));
@@ -3471,7 +3657,14 @@ console.log(Object.keys(newData).map((key) => newData[key]));
 
 ```javascript
 let obj = (function () {
-  
+  const p = 0;
+  return {
+    getPrivateValue: () => {
+      console.log('You are accessing private variable');
+      return p;
+    },
+    callPrivateFunction: () => console.log('this is private function')
+  }
 })();
 
 obj.getPrivateValue(); // You are accessing private variable
@@ -3487,6 +3680,13 @@ obj.callPrivateFunction(); // this is private function
 
 ```javascript
 function flatten(arr, result = []) {
+  for (let i = 0; i < arr.length; i++) {
+    if (Array.isArray(arr[i])) {
+      flatten(arr[i], result);
+    } else {
+      result.push(arr[i]);
+    }
+  }
   return result;
 }
 
@@ -3494,7 +3694,7 @@ let input = [1, { a: [2, [3]] }, 4, [5, [6]], [[7, ["hi"]], 8, 9], 10];
 console.log(flatten(input)); // [1, { a: [2, [3]]}, 4, 5, 6, 7, "hi", 8, 9, 10]
 
 function flattenIterative(out) {
-  return result;
+  return out.flat(Infinity); // whatever
 }
 var list1 = [
   [0, 1],
@@ -3503,9 +3703,9 @@ var list1 = [
 ];
 
 let input = [1, { a: [2, [3]] }, 4, [5, [6]], [[7, ["hi"]], 8, 9], 10];
-console.log(flattenIterative1(input));
+console.log(flattenIterative(input));
 var list2 = [0, [1, [2, [3, [4, [5]]]]]];
-console.log(flattenIterative1(list2)); // [0, 1, 2, 3, 4, 5]
+console.log(flattenIterative(list2)); // [0, 1, 2, 3, 4, 5]
 ```
 
 <div align="right">
@@ -3516,7 +3716,8 @@ console.log(flattenIterative1(list2)); // [0, 1, 2, 3, 4, 5]
 
 ```javascript
 function maxDifference(arr) {
-  return maxDiff;
+  const sortedArray = [...arr].sort((a, b) => a - b);
+  return sortedArray[sortedArray.length - 1] - sortedArray[0];
 }
 
 console.log(maxDifference([1, 2, 4])); // [1 - 4 ] = 3
@@ -3527,7 +3728,7 @@ console.log(maxDifference([1, 2, 4])); // [1 - 4 ] = 3
 ```javascript
 let a = 10,
   b = 5;
-[a, b] = [b, a];
+[a, b] = [b, a]; // cool
 ```
 
 <div align="right">
@@ -3538,10 +3739,20 @@ let a = 10,
 
 ```javascript
 function panagram(input) {
-  
+  return [...new Set(
+    input.split('')
+      .map(
+        (word) => word.toLowerCase()
+      )
+      .filter(
+        (word) => word.match(/[a-z]/g)
+      )
+  )].length === 26
+    ? 'pangram'
+    : 'not pangram';
 }
-function processData(pannagram){
-
+function processData(pannagram) {
+    console.log(panagram(pannagram));
 }
 
 processData("We promptly judged antique ivory buckles for the next prize"); // pangram
@@ -3556,7 +3767,29 @@ processData("We promptly judged antique ivory buckles for the prize"); // Not Pa
 
 ```javascript
 function romanize(num) {
-  
+  let roman = '';
+  const romanNums = {
+    M: 1000,
+    CM: 900,
+    D: 500,
+    CD: 400,
+    C: 100,
+    XC: 90,
+    L: 50,
+    XL: 40,
+    X: 10,
+    IX: 9,
+    V: 5,
+    IV: 4,
+    I: 1
+  };
+  for (const romanNum in romanNums) {
+    while (num >= romanNums[romanNum]) {
+      roman += romanNum;
+      num -= romanNums[romanNum];
+    }
+  }
+  return roman;
 }
 
 console.log(romanize(3)); // III
@@ -3570,7 +3803,22 @@ console.log(romanize(3)); // III
 
 ```javascript
 function matchParenthesis(str) {
-  return result.length === 0;
+  const openParenthesis = ['(', '{', '['];
+  const closeParenthesis = [')', '}', ']'];
+
+  const stack = [];
+  for (let i = 0; i < str.length; i++) {
+    const current = str[i];
+    if (openParenthesis.includes(current)) {
+      stack.push(current);
+    } else if (closeParenthesis.includes(current)) {
+      const last = stack.pop();
+      if (last !== openParenthesis[closeParenthesis.indexOf(current)]) {
+        return false;
+      }
+    }
+  }
+  return stack.length === 0;
 }
 
 console.log(matchParenthesis("}{{}}"), matchParenthesis("{{[]}}")); // false - true
@@ -3584,18 +3832,31 @@ console.log(matchParenthesis("}{{}}"), matchParenthesis("{{[]}}")); // false - t
 
 ```javascript
 class EventEmitter {
-  
+  constructor() {
+    this.events = {};
+  }
+
+  // Register an event handler
+  on(eventName, callback) {
+    this.events[eventName] = this.events[eventName]
+      ? [...this.events[eventName], callback]
+      : [callback];
+  }
+
+  emit(eventName, ...args) {
+    this.events[eventName].forEach(callback => callback(...args));
+  }
 }
 
-let e = new EventEmitter();
-e.on("callme", function (args) {
+const testEvent = new EventEmitter();
+testEvent.on("callme", function (args) {
   console.log(`you called me ${args}`);
 });
-e.on("callme", function (args) {
+testEvent.on("callme", function (args) {
   console.log(`testing`);
 });
 
-e.emit("callme", ["a", "b"], { firstName: "umesh", lastName: "gohil" });
+testEvent.emit("callme", ["a", "b"], { firstName: "umesh", lastName: "gohil" });
 ```
 
 <div align="right">
@@ -3607,8 +3868,20 @@ e.emit("callme", ["a", "b"], { firstName: "umesh", lastName: "gohil" });
 ```javascript
 const arr = [-2, -3, 4, 3, 2, 1];
 // Do the Fastest Way
+function doTheFastestWay(arr) {
+  return Math.max(...arr);
+}
 
 // Do the Slower Way
+function doTheSlowerWay(arr) {
+  let max = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] > max) {
+      max = arr[i];
+    }
+  }
+  return max;
+}
 ```
 
 <div align="right">
@@ -3621,14 +3894,18 @@ const arr = [-2, -3, 4, 3, 2, 1];
 <input type="text" class="search" />;
 
 let timer = null;
-function searchOptions(value) {
-  
-}
+  function searchOptions(value) {
+    console.log('search', value);
+  }
 
-let search = document.querySelector(".search");
-search.addEventListener("keyup", function () {
-  searchOptions(this.value);
-});
+  const search = document.querySelector(".search");
+  search.addEventListener("keyup", function (event) {
+    const value = event.target.value;
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => searchOptions(value), 500);
+  });
 ```
 
 <div align="right">
@@ -3639,7 +3916,9 @@ search.addEventListener("keyup", function () {
 
 ```javascript
 const moveZeroToEnd = (arr) => {
-  return arr;
+  const nonZero = arr.filter(num => num !== 0);
+  const zero = arr.filter(num => num === 0);
+  return [...nonZero, ...zero];
 };
 
 console.log(moveZeroToEnd([1, 8, 2, 0, 0, 0, 3, 4, 0, 5, 0])); // [1, 8, 2, 3, 4, 5, 0, 0, 0, 0, 0]
