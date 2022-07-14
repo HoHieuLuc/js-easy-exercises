@@ -8,7 +8,9 @@
 //   vowels('Why?') --> 0
 
 function vowels(str) {
-  
+    const vowelChars = ['a', 'e', 'i', 'o', 'u'];
+
+    return str.toLowerCase().split('').filter(char => vowelChars.includes(char)).length;
 }
 
 module.exports = vowels;
