@@ -3932,7 +3932,28 @@ console.log(moveZeroToEnd([1, 8, 2, 0, 0, 0, 3, 4, 0, 5, 0])); // [1, 8, 2, 3, 4
 
 ```javascript
 const decodeMessage = (mat) => {
-  return message;
+  let diagionalDownRight = '';
+  let diagionalUpRight = '';
+  
+  // [0, 0], [1, 1], [2, 2], [3, 3]
+  for (let i = 0; i < mat.length; i++) {
+    const char = mat[i][i];
+    if (!char) {
+      break;
+    }
+    diagionalDownRight += char;
+  }
+  
+  // [2, 4], [1, 5], [0, 6]
+  for (let i = mat.length - 2; i >= 0; i--) {
+    const char = mat[i][(mat.length - 1) * 2 - i];
+    if (!char) {
+      break;
+    }
+    diagionalUpRight += char;
+  }
+
+  return diagionalDownRight + diagionalUpRight;
 };
 
 let mat = [
@@ -3953,7 +3974,14 @@ console.log(decodeMessage(mat)); //IROELEA
 
 ```javascript
 const hasPairSum = (arr, sum) => {
-  return result;
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[i] + arr[j] === sum) {
+        return [i, j];
+      }
+    }
+  }
+  return null;
 };
 
 console.log(hasPairSum([1, 2, 4, 5], 8)); // null
@@ -3971,7 +3999,18 @@ console.log(hasPairSum([1, 2, 4, 4], 8)); // [2,3]
 
 ```javascript
 function binarySearch(arr, val) {
-  
+  let start = 0;
+  let end = arr.length - 1;
+  let mid = Math.floor((start + end) / 2);
+  while (arr[mid] !== val && start <= end) {
+    if (val < arr[mid]) {
+      end = mid - 1;
+    } else {
+      start = mid + 1;
+    }
+    mid = Math.floor((start + end) / 2);
+  }
+  return arr[mid] === val ? mid : -1;
 }
 
 console.log(binarySearch([-1, 10, 22, 35, 48, 56, 67], 22));
@@ -3986,7 +4025,19 @@ console.log(binarySearch([-1, 10, 22, 35, 48, 56, 67], 27));
 
 ```javascript
 function pascalTriangle(n) {
-  
+  const result = [];
+  for (let i = 0; i < n; i++) {
+    const row = [];
+    for (let j = 0; j <= i; j++) {
+      if (j === 0 || j === i) {
+        row.push(1);
+      } else {
+        row.push(result[i - 1][j - 1] + result[i - 1][j]);
+      }
+    }
+    result.push(row);
+  }
+  return result;
 }
 
 console.log(pascalTriangle(2));
@@ -4011,6 +4062,8 @@ fun();
 fun(5);
 ```
 
+_Answer_and_Explain: the createVal function is called once (when fun() is called without a val value).
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4033,6 +4086,9 @@ sayHi();
 - C: `ReferenceError` and `21`
 - D: `undefined` and `ReferenceError`
 
+_Answer_and_Explain: D, var is hoisted, let is also hoisted but is not initalized with a default value.
+
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4052,6 +4108,8 @@ for (let i = 0; i < 3; i++) {
 - A: `0 1 2` and `0 1 2`
 - B: `0 1 2` and `3 3 3`
 - C: `3 3 3` and `0 1 2`
+
+_Answer_and_Explain: C, the first for loop run first, var i is a global variable, all the setTimeout functions start counting and then the callbacks get put in the queue, then all the setTimeout function in the second for loop do the same thing, after 1ms, if the stack is empty, all of the callback functions get called (first in, first out).
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4077,6 +4135,8 @@ console.log(shape.perimeter());
 - C: `20` and `63`
 - D: `NaN` and `63`
 
+_Answer_and_Explain: B. in arrow functions, this retains the value of the enclosing lexical context's this.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4091,6 +4151,8 @@ console.log(shape.perimeter());
 - A: `1` and `false`
 - B: `false` and `NaN`
 - C: `false` and `false`
+
+_Answer_and_Explain: A. +true is converted to a number (1), "Lydia" is truthy => !"Lydia" = false
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4114,6 +4176,8 @@ const mouse = {
 - C: `mouse[bird["size"]]` is not valid
 - D: All of them are valid
 
+_Answer_and_Explain: D. mouse[bird.size] = mouse["small"], mouse[bird["size"]] = mouse["small"]
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4135,6 +4199,8 @@ console.log(d.greeting);
 - D: `ReferenceError`
 - E: `TypeError`
 
+_Answer_and_Explain: A. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4155,6 +4221,8 @@ console.log(b === c);
 - B: `false` `false` `true`
 - C: `true` `false` `false`
 - D: `false` `true` `true`
+
+_Answer_and_Explain: A. a and b have the same value, but b is a Number object.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4183,6 +4251,8 @@ console.log(freddie.colorChange("orange"));
 - C: `green`
 - D: `TypeError`
 
+_Answer_and_Explain: D. static methods can be called on instances of the class.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4198,6 +4268,8 @@ console.log(greetign);
 - A: `{}`
 - B: `ReferenceError: greetign is not defined`
 - C: `undefined`
+
+_Answer_and_Explain: A. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4217,6 +4289,8 @@ bark.animal = "dog";
 - B: `SyntaxError`. You cannot add properties to a function this way.
 - C: `"Woof"` gets logged.
 - D: `ReferenceError`
+
+_Answer_and_Explain: A. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4243,6 +4317,8 @@ console.log(member.getFullName());
 - C: `Lydia Hallie`
 - D: `undefined` `undefined`
 
+_Answer_and_Explain: A. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4259,13 +4335,15 @@ const lydia = new Person("Lydia", "Hallie");
 const sarah = Person("Sarah", "Smith");
 
 console.log(lydia);
-console.log(sarah);
+console.log(sarah); // the function Person returns nothing => undefined
 ```
 
 - A: `Person {firstName: "Lydia", lastName: "Hallie"}` and `undefined`
 - B: `Person {firstName: "Lydia", lastName: "Hallie"}` and `Person {firstName: "Sarah", lastName: "Smith"}`
 - C: `Person {firstName: "Lydia", lastName: "Hallie"}` and `{}`
 - D:`Person {firstName: "Lydia", lastName: "Hallie"}` and `ReferenceError`
+
+_Answer_and_Explain: A. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4280,6 +4358,8 @@ console.log(sarah);
 
 <img src="https://i.imgur.com/N18oRgd.png" width="200">
 
+_Answer_and_Explain: D
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4288,6 +4368,8 @@ console.log(sarah);
 
 - A: true
 - B: false
+
+_Answer_and_Explain: A.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4308,6 +4390,8 @@ sum(1, "2");
 - C: `"12"`
 - D: `3`
 
+_Answer_and_Explain: C. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4325,6 +4409,8 @@ console.log(number);
 - B: `1` `2` `2`
 - C: `0` `2` `2`
 - D: `0` `1` `2`
+
+_Answer_and_Explain: C. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4348,6 +4434,8 @@ getPersonInfo`${person} is ${age} years old`;
 - A: `"Lydia"` `21` `["", " is ", " years old"]`
 - B: `["", " is ", " years old"]` `"Lydia"` `21`
 - C: `"Lydia"` `["", " is ", " years old"]` `21`
+
+_Answer_and_Explain: B. tagged function, works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4373,6 +4461,8 @@ checkAge({ age: 18 });
 - B: `You are still an adult.`
 - C: `Hmm.. You don't have an age I guess`
 
+_Answer_and_Explain: C. { age: 18 } (data) and { age: 18 } are 2 different objects, so they are not equal.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4391,6 +4481,8 @@ getAge(21);
 - B: `"array"`
 - C: `"object"`
 - D: `"NaN"`
+
+_Answer_and_Explain: B. rest parameters, args is an array, array is an object.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4413,6 +4505,8 @@ getAge();
 - C: `ReferenceError`
 - D: `TypeError`
 
+_Answer_and_Explain: C. cannot declare a global variable with "use strict", works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4428,6 +4522,8 @@ const sum = eval("10*10+5");
 - C: `TypeError`
 - D: `"10*10+5"`
 
+_Answer_and_Explain: A. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4442,6 +4538,8 @@ sessionStorage.setItem("cool_secret", 123);
 - B: When the user closes the tab.
 - C: When the user closes the entire browser, not only the tab.
 - D: When the user shuts off their computer.
+
+_Answer_and_Explain: B (C and D are correct too).
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4460,6 +4558,8 @@ console.log(num);
 - B: `10`
 - C: `SyntaxError`
 - D: `ReferenceError`
+
+_Answer_and_Explain: B. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4482,6 +4582,8 @@ set.has(1);
 - C: `true` `true` `false` `true`
 - D: `true` `true` `true` `true`
 
+_Answer_and_Explain: C. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4498,6 +4600,8 @@ console.log(obj);
 - C: `{ a: "three", b: "two" }`
 - D: `SyntaxError`
 
+_Answer_and_Explain: C. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4507,6 +4611,8 @@ console.log(obj);
 - A: true
 - B: false
 - C: it depends
+
+_Answer_and_Explain: A.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4525,6 +4631,8 @@ for (let i = 1; i < 5; i++) {
 - B: `1` `2` `3`
 - C: `1` `2` `4`
 - D: `1` `3` `4`
+
+_Answer_and_Explain: C. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4547,6 +4655,8 @@ name.giveLydiaPizza();
 - C: `SyntaxError`
 - D: `undefined`
 
+_Answer_and_Explain: A. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4558,16 +4668,18 @@ const a = {};
 const b = { key: "b" };
 const c = { key: "c" };
 
-a[b] = 123;
-a[c] = 456;
+a[b] = 123; // => a['[object Object]'] = 123;
+a[c] = 456; // => a['[object Object]'] = 456;
 
-console.log(a[b]);
+console.log(a[b]); // => 456
 ```
 
 - A: `123`
 - B: `456`
 - C: `undefined`
 - D: `ReferenceError`
+
+_Answer_and_Explain: B. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4590,6 +4702,8 @@ baz();
 - C: `Second` `First` `Third`
 - D: `Second` `Third` `First`
 
+_Answer_and_Explain: B. event loop, works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4609,6 +4723,8 @@ baz();
 - C: `button`
 - D: An array of all nested elements.
 
+_Answer_and_Explain: C. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4625,6 +4741,8 @@ baz();
 - B: `div` `p`
 - C: `p`
 - D: `div`
+
+_Answer_and_Explain: A. event propagation, works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4648,6 +4766,8 @@ sayHi.bind(person, 21);
 - C: `Lydia is 21` `Lydia is 21`
 - D: `Lydia is 21` `function`
 
+_Answer_and_Explain: D. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4666,6 +4786,8 @@ console.log(typeof sayHi());
 - B: `"number"`
 - C: `"function"`
 - D: `"undefined"`
+
+_Answer_and_Explain: B. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4687,6 +4809,8 @@ undefined;
 - C: `0`, `''`, `new Boolean(false)`, `undefined`
 - D: All of them are falsy
 
+_Answer_and_Explain: A. works as expected. false, null, undefined, 0, -0, 0n, NaN, "" are falsy.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4701,6 +4825,8 @@ console.log(typeof typeof 1);
 - B: `"string"`
 - C: `"object"`
 - D: `"undefined"`
+
+_Answer_and_Explain: B. typeof 1 => "number", typeof "number" => string
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4719,6 +4845,8 @@ console.log(numbers);
 - C: `[1, 2, 3, 7 x empty, 11]`
 - D: `SyntaxError`
 
+_Answer_and_Explain: C. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4731,7 +4859,7 @@ console.log(numbers);
   try {
     throw new Error();
   } catch (x) {
-    (x = 1), (y = 2);
+    (x = 1), (y = 2); // x = 1 refers to the local variable x (x in catch (x))
     console.log(x);
   }
   console.log(x);
@@ -4744,6 +4872,8 @@ console.log(numbers);
 - C: `1` `1` `2`
 - D: `1` `undefined` `undefined`
 
+_Answer_and_Explain: A. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4754,6 +4884,10 @@ console.log(numbers);
 - B: function or object
 - C: trick question! only objects
 - D: number or object
+
+_Answer_and_Explain: A.
+JavaScript only has primitive types and objects.
+Primitive types are boolean, null, undefined, bigint, number, string, and symbol.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4778,6 +4912,8 @@ console.log(numbers);
 - C: `[1, 2, 0, 1, 2, 3]`
 - D: `[1, 2, 6]`
 
+_Answer_and_Explain: C. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4785,15 +4921,17 @@ console.log(numbers);
 ## Q. ***What is the output? Please explain***
 
 ```javascript
-!!null;
-!!"";
-!!1;
+!!null; // null is falsy => false
+!!""; // "" is falsy => false
+!!1; // 1 is truthy => true
 ```
 
 - A: `false` `true` `false`
 - B: `false` `false` `true`
 - C: `false` `true` `true`
 - D: `true` `true` `false`
+
+_Answer_and_Explain: B. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4810,6 +4948,8 @@ setInterval(() => console.log("Hi"), 1000);
 - C: the passed function
 - D: `undefined`
 
+_Answer_and_Explain: A. a unique id to remove the interval later.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4824,6 +4964,8 @@ setInterval(() => console.log("Hi"), 1000);
 - B: `["Lydia"]`
 - C: `[[], "Lydia"]`
 - D: `[["L", "y", "d", "i", "a"]]`
+
+_Answer_and_Explain: A. spread syntax, works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4848,6 +4990,8 @@ console.log(gen.next().value);
 - C: `10, 20`
 - D: `0, 10 and 10, 20`
 
+_Answer_and_Explain: C. generator function, works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4871,6 +5015,8 @@ Promise.race([firstPromise, secondPromise]).then((res) => console.log(res));
 - C: `"two" "one"`
 - D: `"one" "two"`
 
+_Answer_and_Explain: B. The Promise.race() method returns a promise that fulfills or rejects as soon as one of the promises in an iterable fulfills or rejects, with the value or reason from that promise => secondPromise finishes first.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4889,6 +5035,8 @@ console.log(members);
 - B: `[null]`
 - C: `[{}]`
 - D: `[{ name: "Lydia" }]`
+
+_Answer_and_Explain: D. works as expected, wrapping the object in [] creates a shallow copy of the object and returns an array.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4912,6 +5060,8 @@ for (const item in person) {
 - C: `"Lydia", 21`
 - D: `["name", "Lydia"], ["age", 21]`
 
+_Answer_and_Explain: B. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4927,6 +5077,8 @@ console.log(3 + 4 + "5");
 - C: `12`
 - D: `"12"`
 
+_Answer_and_Explain: B. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -4941,6 +5093,8 @@ const num = parseInt("7*6", 10);
 - B: `"42"`
 - C: `7`
 - D: `NaN`
+
+_Answer_and_Explain: C. If parseInt encounters a character that is not a numeral in the specified radix (10 => decimal number), it ignores it and all succeeding characters and returns the integer value parsed up to that point.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4959,6 +5113,8 @@ const num = parseInt("7*6", 10);
 - B: `[null, null, null]`
 - C: `[undefined, undefined, undefined]`
 - D: `[ 3 x empty ]`
+
+_Answer_and_Explain: C. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -4984,6 +5140,8 @@ console.log(person, birthYear);
 - B: `{ name: "Sarah" }, "1998"`
 - C: `{ name: "Lydia" }, "1998"`
 - D: `{ name: "Sarah" }, "1997"`
+
+_Answer_and_Explain: A. works as expected, member.name points to the same property name of the person object.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5013,6 +5171,8 @@ sayHi();
 - C: `SyntaxError: can only throw Error objects`
 - D: `Oh no an error: Hello world!`
 
+_Answer_and_Explain: D. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5034,6 +5194,8 @@ console.log(myCar.make);
 - C: `ReferenceError`
 - D: `TypeError`
 
+_Answer_and_Explain: B. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5053,6 +5215,8 @@ console.log(typeof y);
 - B: `"number", "number"`
 - C: `"object", "number"`
 - D: `"number", "undefined"`
+
+_Answer_and_Explain: A. y is a global variable.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5085,6 +5249,8 @@ pet.bark();
 - C: `"Woof I am Mara"`, `undefined`
 - D: `TypeError`, `TypeError`
 
+_Answer_and_Explain: A. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5101,6 +5267,8 @@ console.log(set);
 - B: `[1, 2, 3, 4]`
 - C: `{1, 1, 2, 3, 4}`
 - D: `{1, 2, 3, 4}`
+
+_Answer_and_Explain: D. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5128,6 +5296,8 @@ console.log(myCounter);
 - C: `Error`
 - D: `NaN`
 
+_Answer_and_Explain: C. The static import declaration is used to import read-only live bindings which are exported by another module.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5136,7 +5306,7 @@ console.log(myCounter);
 
 ```javascript
 const name = "Lydia";
-age = 21;
+age = 21; // add age to the global object
 
 console.log(delete name);
 console.log(delete age);
@@ -5146,6 +5316,8 @@ console.log(delete age);
 - B: `"Lydia"`, `21`
 - C: `true`, `true`
 - D: `undefined`, `undefined`
+
+_Answer_and_Explain: A. Any property declared with let or const cannot be deleted from the scope within which they were defined.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5165,6 +5337,8 @@ console.log(y);
 - C: `1`
 - D: `[1]`
 
+_Answer_and_Explain: C. destructuring array, works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5182,6 +5356,8 @@ console.log(admin);
 - B: `{ admin: true, name: "Lydia", age: 21 }`
 - C: `{ admin: true, user: ["Lydia", 21] }`
 - D: `{ admin: true }`
+
+_Answer_and_Explain: B. destructuring object, works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5202,6 +5378,8 @@ console.log(Object.keys(person));
 - B: `{ name: "Lydia", age: 21 }`, `["name"]`
 - C: `{ name: "Lydia"}`, `["name", "age"]`
 - D: `{ name: "Lydia"}`, `["age"]`
+
+_Answer_and_Explain: B. enumerable is default to false => age doesn't show up during enumeration.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5225,6 +5403,8 @@ console.log(data);
 - C: `"["level", "health"]"`
 - D: `"{"username": "lydiahallie", "level":19, "health":90}"`
 
+_Answer_and_Explain: A. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5235,10 +5415,10 @@ console.log(data);
 let num = 10;
 
 const increaseNumber = () => num++;
-const increasePassedNumber = (number) => number++;
+const increasePassedNumber = (number) => number++; // inscrease but return the value before incrementing (10)
 
 const num1 = increaseNumber();
-const num2 = increasePassedNumber(num1);
+const num2 = increasePassedNumber(num1); // num1 = 10
 
 console.log(num1);
 console.log(num2);
@@ -5248,6 +5428,8 @@ console.log(num2);
 - B: `10`, `11`
 - C: `11`, `11`
 - D: `11`, `12`
+
+_Answer_and_Explain: A. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5273,6 +5455,8 @@ multiply(value);
 - C: `20`, `20`, `20`, `40`
 - D: `NaN`, `NaN`, `20`, `40`
 
+_Answer_and_Explain: C. destructuring an object create a shallow copy of that object, works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5287,6 +5471,8 @@ multiply(value);
 - B: `1` `2` and `2` `3` and `3` `4`
 - C: `1` `undefined` and `2` `undefined` and `3` `undefined` and `4` `undefined`
 - D: `1` `2` and `undefined` `3` and `undefined` `4`
+
+_Answer_and_Explain: C. the callback function returns nothing, works as expected.
 
 </p>
 </details>  
@@ -5333,6 +5519,8 @@ class Labrador extends Dog {
 - C: 3
 - D: 4
 
+_Answer_and_Explain: B. it's how it works.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5355,6 +5543,8 @@ export const sum = (a, b) => a + b;
 - C: `running sum.js`, `3`, `running index.js`
 - D: `running index.js`, `undefined`, `running sum.js`
 
+_Answer_and_Explain: B. With the import keyword, all imported modules are pre-parsed. This means that the imported modules get run first, the code in the file which imports the module gets executed after.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5371,6 +5561,8 @@ console.log(Symbol("foo") === Symbol("foo"));
 - B: `false`, `true`, `false`
 - C: `true`, `false`, `true`
 - D: `true`, `true`, `true`
+
+_Answer_and_Explain: A. Symbol is a built-in object whose constructor returns a symbol primitive — also called a Symbol value or just a Symbol — that's guaranteed to be unique. 
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5389,6 +5581,8 @@ console.log(name.padStart(2));
 - C: `" Lydia Hallie"`, `"Lydia Hallie"` (`"[1x whitespace]Lydia Hallie"`, `"Lydia Hallie"`)
 - D: `"Lydia Hallie"`, `"Lyd"`,
 
+_Answer_and_Explain: C. padStart(targetLength, padString) without padString adds whitespace to the start of a string until the resulting string reaches the given length (13). 2 is less than the length of "Lydia Hallie" (12), so the string is returns as-is.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5403,6 +5597,8 @@ console.log("🥑" + "💻");
 - B: `257548`
 - C: A string containing their code points
 - D: Error
+
+_Answer_and_Explain: A. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5429,6 +5625,11 @@ console.log(/* 2 */); // JavaScript loves you back ❤️
 - C: `game.next().value` and `game.next("Yes").value`
 - D: `game.next.value()` and `game.next.value("Yes")`
 
+_Answer_and_Explain: C.
+Every line is executed, until it finds the first yield keyword. There is a yield keyword on the first line within the function: the execution stops with the first yield! This means that the variable answer is not defined yet!
+
+When we call game.next("Yes").value, the previous yield is replaced with the value of the parameters passed to the next() function, "Yes" in this case. The value of the variable answer is now equal to "Yes". The condition of the if-statement returns false, and JavaScript loves you back ❤️ gets logged.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5443,6 +5644,8 @@ console.log(String.raw`Hello\nworld`);
 - B: `Hello` <br />&nbsp; &nbsp; &nbsp;`world`
 - C: `Hello\nworld`
 - D: `Hello\n` <br /> &nbsp; &nbsp; &nbsp;`world`
+
+_Answer_and_Explain: C. String.raw is used to get the raw string form of template literals, that is, substitutions (e.g. ${foo}) are processed, but escapes (e.g. \n) are not.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5464,6 +5667,8 @@ console.log(data);
 - C: `Promise {<pending>}`
 - D: `undefined`
 
+_Answer_and_Explain: C. data is a promise function, works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5483,6 +5688,8 @@ console.log(result);
 - B: `2`
 - C: `true`
 - D: `undefined`
+
+_Answer_and_Explain: B. push method returns the new length of the array.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5506,6 +5713,8 @@ console.log(shape);
 - C: `{ x: 100 }`
 - D: `ReferenceError`
 
+_Answer_and_Explain: B. Object.freeze freezes the object, so it can't be modified.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5523,6 +5732,7 @@ console.log(name);
 - C: `undefined`
 - D: `ReferenceError`
 
+_Answer_and_Explain: D. destruring object and renaming the variable (name to myName) => name is not defined.
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5537,6 +5747,8 @@ function sum(a, b) {
 
 - A: Yes
 - B: No
+
+_Answer_and_Explain: A. Yes, pure functions are functions that always return the same output for the same input.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5558,8 +5770,8 @@ const add = () => {
   };
 };
 
-const addFunction = add();
-console.log(addFunction(10));
+const addFunction = add(); // => addFunction = (num) => { ... }
+console.log(addFunction(10)); // result = 20, cache['10'] = 20, Calculated! 20
 console.log(addFunction(10));
 console.log(addFunction(5 * 2));
 ```
@@ -5568,6 +5780,8 @@ console.log(addFunction(5 * 2));
 - B: `Calculated! 20` `From cache! 20` `Calculated! 20`
 - C: `Calculated! 20` `From cache! 20` `From cache! 20`
 - D: `Calculated! 20` `From cache! 20` `Error`
+
+_Answer_and_Explain: C. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5592,6 +5806,8 @@ for (let item of myLifeSummedUp) {
 - C: `"☕"` ` "💻"` `"🍷"` `"🍫"` and `0` `1` `2` `3`
 - D: `0` `1` `2` `3` and `{0: "☕", 1: "💻", 2: "🍷", 3: "🍫"}`
 
+_Answer_and_Explain: A. works as expected. The for...in statement iterates over all enumerable properties of an object that are keyed by strings.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5607,6 +5823,8 @@ console.log(list);
 - B: `["12", 2, 0.5]`
 - C: `[3, 2, 0.5]`
 - D: `[1, 1, 1]`
+
+_Answer_and_Explain: C. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5626,6 +5844,8 @@ console.log(sayHi());
 - B: `Hi there, undefined`
 - C: `Hi there, null`
 - D: `ReferenceError`
+
+_Answer_and_Explain: C. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5647,7 +5867,7 @@ setTimeout(() => {
   };
 
   console.log(data.getStatus());
-  console.log(data.getStatus.call(this));
+  console.log(data.getStatus.call(this)); // refers to the global object
 }, 0);
 ```
 
@@ -5655,6 +5875,9 @@ setTimeout(() => {
 - B: `"🥑"` and `"😎"`
 - C: `"😍"` and `"😎"`
 - D: `"😎"` and `"😎"`
+
+_Answer_and_Explain: B. works as expected. 
+In functions, the this keyword refers to the the object that the function belongs to. We declared the setTimeout function on the global object, so within the setTimeout function, the this keyword refers to the global object.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5679,6 +5902,8 @@ console.log(person);
 - C: `{ name: "Lydia", age: 21, city: undefined }`
 - D: `"Amsterdam"`
 
+_Answer_and_Explain: A. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5688,9 +5913,9 @@ console.log(person);
 ```javascript
 function checkAge(age) {
   if (age < 18) {
-    const message = "Sorry, you're too young.";
+    const message = "Sorry, you're too young."; // local to the code block
   } else {
-    const message = "Yay! You're old enough!";
+    const message = "Yay! You're old enough!"; // same
   }
 
   return message;
@@ -5703,6 +5928,8 @@ console.log(checkAge(21));
 - B: `"Yay! You're old enough!"`
 - C: `ReferenceError`
 - D: `undefined`
+
+_Answer_and_Explain: C. message is not defined
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5721,6 +5948,8 @@ fetch("https://www.website.com/api/user/1")
 - C: The result of the callback in the previous `.then()`.
 - D: It would always be undefined.
 
+_Answer_and_Explain: C. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5738,6 +5967,8 @@ function getName(name) {
 - C: `new Boolean(name)`
 - D: `name.length`
 
+_Answer_and_Explain: A. !! convert a value to a boolean (based on the falsyness and truthyness of the value).
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5752,6 +5983,8 @@ console.log("I want pizza"[0]);
 - B: `"I"`
 - C: `SyntaxError`
 - D: `undefined`
+
+_Answer_and_Explain: B. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5771,6 +6004,8 @@ sum(10);
 - B: `20`
 - C: `ReferenceError`
 - D: `undefined`
+
+_Answer_and_Explain: B. works as expected. You can set a default parameter's value equal to another parameter of the function, as long as they've been defined before the default parameter.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5794,6 +6029,8 @@ console.log(data);
 - C: `{ default: "Hello world", name: "Lydia" }`
 - D: Global object of `module.js`
 
+_Answer_and_Explain: A. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5815,6 +6052,8 @@ console.log(typeof member);
 - B: `"function"`
 - C: `"object"`
 - D: `"string"`
+
+_Answer_and_Explain: C. works as expected.
 
 ```javascript
 function Person() {
@@ -5841,6 +6080,8 @@ console.log(newList.push(5));
 - C: `[1, 2, 3, 4]`
 - D: `Error`
 
+_Answer_and_Explain: D. newList is a number.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5864,6 +6105,8 @@ console.log(giveLydiaChocolate.prototype);
 - C: `{ constructor: ...}` `{}`
 - D: `{ constructor: ...}` `undefined`
 
+_Answer_and_Explain: D. works as expected. Arrow functions do not have a prototype property.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5886,6 +6129,8 @@ for (const [x, y] of Object.entries(person)) {
 - C: `["name", "age"]` and `undefined`
 - D: `Error`
 
+_Answer_and_Explain: A. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5904,6 +6149,8 @@ getItems(["banana", "apple"], "pear", "orange")
 - B: `[["banana", "apple"], "pear", "orange"]`
 - C: `["banana", "apple", ["pear"], "orange"]`
 - D: `SyntaxError`
+
+_Answer_and_Explain: D. Only the last parameter in a function definition can be a rest parameter.
 
 ```javascript
 function getItems(fruitList, favoriteFruit, ...args) {
@@ -5938,6 +6185,8 @@ console.log(nums(1, 2));
 - C: `undefined` and `undefined`
 - D: `SyntaxError`
 
+_Answer_and_Explain: B. The function returns nothing.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5966,6 +6215,8 @@ console.log(member.name);
 - C: `Error: cannot redeclare Person`
 - D: `SyntaxError`
 
+_Answer_and_Explain: B. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5986,6 +6237,8 @@ console.log(Object.keys(info));
 - C: `{ a: "b" }` and `["a"]`
 - D: `{Symbol('a'): 'b'}` and `[]`
 
+_Answer_and_Explain: D. The Object.keys() method returns an array of a given object's own enumerable property names, Symbols are not enumerable.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -5994,7 +6247,7 @@ console.log(Object.keys(info));
 
 ```javascript
 const getList = ([x, ...y]) => [x, y]
-const getUser = user => { name: user.name, age: user.age }
+const getUser = user => ({ name: user.name, age: user.age }) // fixed it for you
 
 const list = [1, 2, 3, 4]
 const user = { name: "Lydia", age: 21 }
@@ -6007,6 +6260,8 @@ console.log(getUser(user))
 - B: `[1, [2, 3, 4]]` and `{ name: "Lydia", age: 21 }`
 - C: `[1, 2, 3, 4]` and `{ name: "Lydia", age: 21 }`
 - D: `Error` and `{ name: "Lydia", age: 21 }`
+
+_Answer_and_Explain: B. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -6025,6 +6280,8 @@ console.log(name());
 - C: `TypeError`
 - D: `undefined`
 
+_Answer_and_Explain: C. name is not a function.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -6042,6 +6299,8 @@ You should${"" && `n't`} see a therapist after so much JavaScript lol`;
 - B: `Impossible! You should see a therapist after so much JavaScript lol`
 - C: `possible! You shouldn't see a therapist after so much JavaScript lol`
 - D: `Impossible! You shouldn't see a therapist after so much JavaScript lol`
+
+_Answer_and_Explain: B. [] is truthy, "" is falsy.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -6062,6 +6321,11 @@ console.log(one, two, three);
 - C: `{}` `""` `[]`
 - D: `null` `null` `true`
 
+_Answer_and_Explain: C. 
++ one = false || {} => {} || null => {} ({} is truthy.
++ all null, false and "" are falsy, so the last one is returned.
++ [] is truthy.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -6072,13 +6336,13 @@ console.log(one, two, three);
 const myPromise = () => Promise.resolve("I have resolved!");
 
 function firstFunction() {
-  myPromise().then((res) => console.log(res));
-  console.log("second");
+  myPromise().then((res) => console.log(res)); // 2
+  console.log("second"); // 1
 }
 
 async function secondFunction() {
-  console.log(await myPromise());
-  console.log("second");
+  console.log(await myPromise()); // 3
+  console.log("second"); // 4
 }
 
 firstFunction();
@@ -6089,6 +6353,8 @@ secondFunction();
 - B: `second`, `I have resolved!` and `second`, `I have resolved!`
 - C: `I have resolved!`, `second` and `second`, `I have resolved!`
 - D: `second`, `I have resolved!` and `I have resolved!`, `second`
+
+_Answer_and_Explain: D. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -6113,6 +6379,8 @@ for (let item of set) {
 - C: `3`, `Lydia2`, `[Object object]2`
 - D: `"12"`, `Lydia2`, `[Object object]2`
 
+_Answer_and_Explain: C. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -6127,6 +6395,8 @@ Promise.resolve(5);
 - B: `Promise {<pending>: 5}`
 - C: `Promise {<resolved>: 5}`
 - D: `Error`
+
+_Answer_and_Explain: A. The Promise.resolve() method "resolves" a given value to a Promise. If the value is a promise, that promise is returned; if the value is a thenable, Promise.resolve() will call the then() method with two callbacks it prepared; **otherwise** the returned promise will be fulfilled with the value.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -6153,6 +6423,8 @@ compareMembers(person);
 - C: `ReferenceError`
 - D: `SyntaxError`
 
+_Answer_and_Explain: B. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -6178,6 +6450,8 @@ console.log(colorConfig.colors[1]);
 - C: `undefined`
 - D: `TypeError`
 
+_Answer_and_Explain: D. works as expected, colors is undefined.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -6190,6 +6464,8 @@ console.log("❤️" === "❤️");
 
 - A: `true`
 - B: `false`
+
+_Answer_and_Explain: A. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -6213,6 +6489,8 @@ emojis.splice(1, 2, "✨");
 - C: `map` `slice` `splice`
 - D: `splice`
 
+_Answer_and_Explain: D. works as expected. The splice() method changes the contents of an array by removing or replacing existing elements and/or adding new elements in place.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -6233,6 +6511,8 @@ console.log(food);
 - C: `['🍝', '🍕', '🍫', '🥑', '🍔']`
 - D: `ReferenceError`
 
+_Answer_and_Explain: A. works as expected.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -6247,6 +6527,8 @@ JSON.parse();
 - B: Parses a JavaScript object to JSON
 - C: Parses any JavaScript value to JSON
 - D: Parses JSON to a JavaScript object only
+
+_Answer_and_Explain: D. it is what it is.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -6269,6 +6551,8 @@ getName();
 - B: Sarah
 - C: `undefined`
 - D: `ReferenceError`
+
+_Answer_and_Explain: D. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -6296,7 +6580,10 @@ console.log(two.next().value);
 - B: `a` and `undefined`
 - C: `['a', 'b', 'c']` and `a`
 - D: `a` and `['a', 'b', 'c']`
-å
+
+_Answer_and_Explain: C. works as expected.
+In generatorTwo, we use the yield* keyword. This means that the first yielded value of two, is equal to the first yielded value in the iterator. The iterator is the array ['a', 'b', 'c']. The first yielded value is a, so the first time we call two.next().value, a is returned.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -6310,7 +6597,9 @@ console.log(`${((x) => x)("I love")} to program`);
 - A: `I love to program`
 - B: `undefined to program`
 - C: `${(x => x)('I love') to program`
-- D: `TypeError`å
+- D: `TypeError`
+
+_Answer_and_Explain: A. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -6332,6 +6621,8 @@ config = null;
 - B: The `setInterval` callback gets invoked once
 - C: The `setInterval` callback will still be called every second
 - D: We never invoked `config.alert()`, config is `null`
+
+_Answer_and_Explain: C. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -6357,6 +6648,8 @@ myMap.get(() => "greeting");
 - B: 2
 - C: 2 and 3
 - D: All of them
+
+_Answer_and_Explain: B. works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -6387,6 +6680,8 @@ console.log(person);
 - C: `{name: "Lydia", age: 22}`
 - D: `{name: "Lydia", age: 23}`
 
+_Answer_and_Explain: C. works as expected, destructuring an object creates a shallow copy of that object.
+
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
 </div>
@@ -6398,6 +6693,8 @@ if(2 == true) // returns false
 
 if(2 == false) // returns false
 ```
+
+_Answer_and_Explain: okayyyyyy?????
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -6414,7 +6711,21 @@ var lowerBound = 1;
 findMissingNumber(arrayOfIntegers, upperBound, lowerBound); // 8
 
 function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
-  
+  // find the sum of the input array
+  // then subtract that sum from the sum of the range
+  let sum = 0;
+
+  for (let i = 0; i < arrayOfIntegers.length; i++) {
+    sum += arrayOfIntegers[i];
+  }
+
+  let rangeSum = 0;
+
+  for (let i = upperBound; i >= lowerBound; i--) {
+    rangeSum += i;
+  }
+
+  return rangeSum - sum;
 }
 
 // Output
@@ -6430,24 +6741,45 @@ function findMissingNumber(arrayOfIntegers, upperBound, lowerBound) {
 **a.) Using set()**  
 ```javascript
 const names = ['John', 'Paul', 'George', 'Ringo', 'John'];
+const namesWithoutDuplicate = new Set(names);
 ```
 **b.) Using filter()**   
 ```javascript
 const names = ['John', 'Paul', 'George', 'Ringo', 'John'];
+const namesWithoutDuplicate = names.filter((name, index, array) => {
+  return array.indexOf(name) === index;
+});
 ```
 **c.) Using forEach()**  
 ```javascript
 const names = ['John', 'Paul', 'George', 'Ringo', 'John'];
+const namesWithoutDuplicate = [];
+names.forEach((name) => {
+  if (!namesWithoutDuplicate.includes(name)) {
+    namesWithoutDuplicate.push(name);
+  }
+});
 ```
 
 **d.) Using set()** 
 
 ```js
 // ES6 Implementation
-var array = [1, 2, 3, 5, 1, 5, 9, 1, 2, 8];
+const array = [1, 2, 3, 5, 1, 5, 9, 1, 2, 8];
+const arrayWithoutDuplicate = [...new Set(array)];
+
 ```
 
 **e.) Using Hashmap** 
+```js
+const names = ['John', 'Paul', 'George', 'Ringo', 'John'];
+const namesWithoutDuplicate = new Map();
+names.forEach((name) => {
+  if (!namesWithoutDuplicate.has(name)) {
+    namesWithoutDuplicate.set(name, name);
+  }
+});
+```
 
 ```js
 // ES5 Implementation
@@ -6456,7 +6788,13 @@ var array = [1, 2, 3, 5, 1, 5, 9, 1, 2, 8];
 uniqueArray(array); // [1, 2, 3, 5, 9, 8]
 
 function uniqueArray(array) {
-  
+  const newArray = [];
+    for (var i = 0; i < array.length; i++) {
+      if (newArray.indexOf(array[i]) === -1) {
+        newArray.push(array[i]);
+      }
+    }
+  return newArray;
 }
 ```
 
@@ -6477,7 +6815,7 @@ var reverseEntireSentence = reverseBySeparator(string, "");
 var reverseEachWord = reverseBySeparator(reverseEntireSentence, " ");
 
 function reverseBySeparator(string, separator) {
-  // One line only
+  return string.split(separator).reverse().join(separator);
 }
 ```
 
@@ -6495,11 +6833,11 @@ var outputStack = []; // Second stack
 
 // For enqueue, just push the item into the first stack
 function enqueue(stackInput, item) {
-  
+  stackInput.push(item);
 }
 
 function dequeue(stackInput, stackOutput) {
- 
+  stackOutput.push(stackInput.pop());
 }
 ```
 
@@ -6511,7 +6849,13 @@ function dequeue(stackInput, stackOutput) {
 
 ```js
 function counter() {
-  
+  let counter = 0;
+  return {
+    add: (num) => {
+      counter += num;
+    },
+    retrieve: () => counter
+  }
 }
 
 // error if we try to access the private variable like below
