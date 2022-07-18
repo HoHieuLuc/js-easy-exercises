@@ -5357,7 +5357,7 @@ console.log(admin);
 - C: `{ admin: true, user: ["Lydia", 21] }`
 - D: `{ admin: true }`
 
-_Answer_and_Explain: B. destructuring object, works as expected.
+_Answer_and_Explain: B. spreading object, works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -5455,7 +5455,7 @@ multiply(value);
 - C: `20`, `20`, `20`, `40`
 - D: `NaN`, `NaN`, `20`, `40`
 
-_Answer_and_Explain: C. destructuring an object create a shallow copy of that object, works as expected.
+_Answer_and_Explain: C. spreading an object create a shallow copy of that object, works as expected.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -6680,7 +6680,7 @@ console.log(person);
 - C: `{name: "Lydia", age: 22}`
 - D: `{name: "Lydia", age: 23}`
 
-_Answer_and_Explain: C. works as expected, destructuring an object creates a shallow copy of that object.
+_Answer_and_Explain: C. works as expected, spreading an object creates a shallow copy of that object.
 
 <div align="right">
     <b><a href="#">↥ back to top</a></b>
@@ -6905,7 +6905,7 @@ split(lenth);
  * 
  * */
 function randomInteger(min, max) {
-  // One line only
+  return Math.floor(Math.random() * max) + min;
 }
 randomInteger(1, 100); // returns a random integer from 1 to 100
 ```
@@ -6920,7 +6920,7 @@ randomInteger(1, 100); // returns a random integer from 1 to 100
 
 ```js
 function DecimalToBinary(number) {
-  
+  return number.toString(2);  
 }
 
 DecimalToBinary(10);
@@ -6940,7 +6940,9 @@ let val = 10;
 
 ```js
 function capitalizeFirstLetter(string) {
-  
+  return string.split(' ').map(([firstLetter, ...rest]) => {
+    return firstLetter.toUpperCase() + rest.join('');
+  }).join(' ');
 }
 
 console.log(capitalizeFirstLetter("hello world")); // Hello World
@@ -6954,7 +6956,7 @@ console.log(capitalizeFirstLetter("hello world")); // Hello World
 
 ```js
 function check(str) {
-  
+  return typeof str;
 }
 
 var ltrlStr = "Hi I am string literal";
@@ -6973,10 +6975,10 @@ console.log(check(objStr)); // It is an object of string
 ```js
 var marks = [50, 20, 70, 60, 45, 30];
 function findMin(arr) {
-  // One line only
+  return Math.min(...arr);
 }
 function findMax(arr) {
-  // One line only
+  return Math.max(...arr);
 }
 
 console.log(findMin(marks));
@@ -6991,12 +6993,22 @@ console.log(findMax(marks));
 
 ```js
 var marks = [50, 20, 70, 60, 45, 30];
-function findMin(arr) {
-  
+function findMin(arr = []) {
+  return arr.reduce((min, current) => {
+    if (current < min) {
+      return current;
+    }
+    return min;
+  }, arr[0])
 }
 
 function findMax(arr) {
-  
+  return arr.reduce((max, current) => {
+    if (current > max) {
+      return current;
+    }
+    return max;
+  }, arr[0])
 }
 
 console.log(findMin(marks));
@@ -7027,6 +7039,13 @@ const address = {
 Write merge function which will take two object and add all the own property of second object into first object.
 
 ```js
+const merge = (firstObject, secondObject) => {
+  for (const key in secondObject) {
+    firstObject[key] = secondObject[key];
+  }
+  return firstObject;
+}
+
 merge(person , address); 
  
 /* Now person should have 5 properties 
@@ -7036,6 +7055,9 @@ name , age , addressLine1 , addressLine2 , city */
 **Method 1: Using ES6:**
 
 ```js
+const merge = (firstObject, secondObject) => {
+  return Object.assign(firstObject, secondObject);
+}
 
 console.log(merge(person, address));
 // {name: "Tanvi", age: 28, addressLine1: "Some Location x", addressLine2: "Some Location y", city: "Bangalore"}
@@ -7045,7 +7067,10 @@ console.log(merge(person, address));
 
 ```js
 function mergeObject(toObj, fromObj) {
-  
+  return {
+    ...toObj,
+    ...fromObj
+  }
 }
 
 console.log(mergeObject(person, address));
