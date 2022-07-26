@@ -3285,7 +3285,6 @@ function removeDuplicates(arr) {
 
 ```javascript
 function deepExtend(out = {}) {
-  out = out || {};
   for (let i = 1; i < arguments.length; i++) {
     const obj = arguments[i];
     if (!obj) {
