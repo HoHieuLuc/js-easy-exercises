@@ -486,7 +486,7 @@ myObject.func();
 ```
 Ouput: outer func:  this.foo = bar <br/>
 outer func:  self.foo = bar <br/>
-inner func:  this.foo = undefined <br/> // this refers to the function itself, not the object
+inner func:  this.foo = undefined, the value of this depends on how the function is called => default: global object (window) <br/>
 inner func:  self.foo = bar <br/>
 
 <div align="right">
